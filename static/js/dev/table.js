@@ -43,7 +43,7 @@ class table_builder {
 			do not check new lines 
 			*/
 		} else if (isnew && !this.first_time) {
-			row.className = 'table-info';
+			row.className = 'spot-new';
 		}
 
 		//Column: DE search on QRZ

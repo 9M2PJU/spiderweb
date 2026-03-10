@@ -32,9 +32,13 @@
 
 body {
 	font-family: 'Inter', sans-serif;
-	background-color: var(--primary-dark);
+	background-color: #000000 !important;
 	color: var(--text-main);
 	line-height: 1.5;
+}
+
+.container, .container-fluid, .row {
+	background-color: #000000 !important;
 }
 
 h1, h2, h3, h4, .navbar-brand {
@@ -234,7 +238,8 @@ tr:hover .search-icon {
 .table td {
 	border: none !important;
 	vertical-align: middle;
-	padding: 0.5rem 0.75rem !important; /* Significantly reduced vertical padding */
+	padding: 0.5rem 0.75rem !important;
+	background-color: transparent !important; /* Force cell transparency to show TR background */
 }
 
 .badge-responsive {
@@ -422,5 +427,10 @@ span.search-callsign {
 	background: #15539e;
 	color: #fff;
 	border-radius: 3px;
+}
+
+.spot-new {
+	border-left: 3px solid var(--accent-blue) !important;
+	background-color: rgba(16, 185, 129, 0.05) !important;
 }
 
