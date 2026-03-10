@@ -35,6 +35,12 @@ For this application, I've used:
 
 You can find my web site at [https://www.iu1bow.it](https://www.i1bow.it)
 
+### Performance & UI/UX Enhancements
+The latest version (v2.5.8+) includes significant architectural and visual improvements:
+- **Optimization**: Implemented intelligent caching for heavy database queries, reducing server overhead on high-traffic cluster nodes.
+- **Visual Refresh**: Modern "Premium" design featuring Glassmorphism (blurs), Inter & Outfit typography, and a refined dark-mode palette.
+- **Request Efficiency**: Optimized per-row lookups for faster spot filtering and rendering.
+
 ### Changelog
 see file ["CHANGELOG.md"](docs/CHANGELOG.md)
 
