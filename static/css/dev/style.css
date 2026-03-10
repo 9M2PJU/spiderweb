@@ -679,3 +679,19 @@ span.search-callsign {
 .toast-fade-out {
 	animation: fadeOut 0.5s forwards;
 }
+
+/* Mobile Responsive Clock */
+@media screen and (max-width: 768px) {
+	.clock-large {
+		font-size: 1.5rem;
+	}
+	
+	.clock-medium {
+		font-size: 0.9rem;
+	}
+	
+	.hero-clock-container {
+		min-width: 130px;
+		padding: 0.5rem 1rem !important;
+	}
+}
