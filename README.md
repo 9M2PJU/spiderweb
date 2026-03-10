@@ -3,7 +3,7 @@
   <h1>SPIDERWEB (Modern Fork)</h1>
   <p><strong>Premium Ham Radio DX Cluster Web Viewer</strong></p>
 
-  [![GPLv3 license](https://img.shields.io/badge/License-GPLv3-blue.svg)](http://perso.crans.org/besson/LICENSE.html)
+  [![AGPLv3.0 license](https://img.shields.io/badge/License-AGPLv3.0-blue.svg)](https://www.gnu.org/licenses/agpl-3.0.html)
   [![made-with-python](https://img.shields.io/badge/B.e.-Python-1f425f.svg)](https://www.python.org/)
   [![Bootstrap 5.3](https://img.shields.io/badge/UI-Bootstrap%205.3-purple)](https://getbootstrap.com/)
   [![Performance-Optimized](https://img.shields.io/badge/Performance-Optimized-success)](#performance-enhancements)
@@ -115,4 +115,12 @@ Spiderweb aggregates data from multiple world-class amateur radio resources:
 ---
 
 ## 📄 License
-This fork is distributed under the **GPL v3.0** License. See the [LICENSE](LICENSE) file for more details. Original Author: [Corrado Gerbaldo - IU1BOW](https://www.qrz.com/db/IU1BOW).
+This fork is distributed under the **GNU Affero General Public License v3.0 (AGPL-3.0)**. 
+
+### Why AGPL v3.0?
+We have upgraded the license from GPLv3 to **AGPL v3.0** to ensure that the spirit of open-source cooperation is preserved in a network-centric world. 
+- **Network Copyleft**: Requires modified versions of the software to provide their source code to users interacting with them over a network.
+- **Transparency**: Ensures that any performance optimizations or UI enhancements made to the platform are shared back with the amateur radio community.
+- **Sustainability**: Prevents "closed" forks of this web-based tool from being hosted as private services without contributing back.
+
+See the [LICENSE](LICENSE) file for more details. Original Author: [Corrado Gerbaldo - IU1BOW](https://www.qrz.com/db/IU1BOW).
