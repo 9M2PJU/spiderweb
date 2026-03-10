@@ -84,10 +84,11 @@ h1, h2, h3, h4, .navbar-brand {
 }
 
 .ipcs {
-	background-image: linear-gradient(rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.8)), url("/static/images/background.webp");
+	background-image: linear-gradient(rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.9)), url("/static/images/background.webp");
 	background-size: cover;
 	background-position: center;
-	border-radius: 16px !important;
+	border-radius: 4px !important; /* Sharper tactical radius */
+	border: 1px solid var(--accent-blue) !important;
 }
 
 .navbar {
@@ -131,10 +132,30 @@ h1, h2, h3, h4, .navbar-brand {
 	border: 1px solid rgba(16, 185, 129, 0.05);
 }
 
-.table tbody tr:hover {
-	background: rgba(16, 185, 129, 0.08) !important;
-	transform: none;
-	border-left: 2px solid var(--accent-blue) !important;
+footer {
+	background-color: #000000 !important;
+	color: var(--text-muted) !important;
+	border-top: 1px solid var(--accent-blue);
+	margin-top: 2rem;
+}
+
+.footer-copyright {
+	background-color: #000000 !important;
+	color: var(--text-muted) !important;
+}
+
+.footer-copyright a {
+	color: var(--accent-blue) !important;
+	font-weight: 600;
+}
+
+.hr {
+	border-top: 1px solid rgba(16, 185, 129, 0.2);
+	opacity: 1;
+}
+
+footer strong {
+	color: var(--accent-blue);
 }
 
 .freq-badge {
@@ -162,7 +183,7 @@ h1, h2, h3, h4, .navbar-brand {
 .utc-time {
 	font-family: 'Inter', monospace;
 	font-weight: 700;
-	color: #fff;
+	color: var(--accent-blue); /* Tactical Emerald instead of white */
 	font-size: 0.9rem;
 }
 
