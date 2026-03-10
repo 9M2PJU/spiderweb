@@ -47,7 +47,20 @@ body {
 	background-color: #000000 !important;
 	color: var(--text-main);
 	line-height: 1.5;
+	overflow-x: hidden;
+	width: 100%;
+	height: 100%;
+	min-height: calc(var(--vh, 1vh) * 100);
+	padding-bottom: env(safe-area-inset-bottom);
+	overscroll-behavior-y: none; /* Prevent rubber-banding if desired for native feel */
 }
+
+/* Base container adjustment for safe areas */
+header, .container-fluid {
+	padding-left: max(0.75rem, env(safe-area-inset-left));
+	padding-right: max(0.75rem, env(safe-area-inset-right));
+}
+
 
 .hero-bg {
 	background-color: #000000;
@@ -139,7 +152,9 @@ h1, h2, h3, h4, .navbar-brand {
 	-webkit-backdrop-filter: blur(12px) saturate(180%);
 	border-bottom: 1px solid rgba(16, 185, 129, 0.2) !important;
 	padding: 0.25rem 1rem !important;
+	padding-top: max(0.25rem, env(safe-area-inset-top)) !important;
 	transition: all 0.3s ease;
+
 }
 
 .navbar-nav .nav-link {
@@ -204,7 +219,9 @@ header {
 	text-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
 	letter-spacing: -0.01em;
 	line-height: 1;
+	font-variant-numeric: tabular-nums;
 }
+
 
 .clock-medium {
 	font-size: 1.1rem;
@@ -692,6 +709,47 @@ span.search-callsign {
 	
 	.hero-clock-container {
 		min-width: 130px;
-		padding: 0.5rem 1rem !important;
+		padding: 0.4rem 0.75rem !important;
+	}
+
+	.clock-large {
+		font-size: 1.35rem;
+	}
+
+	.clock-medium {
+		font-size: 0.8rem;
+	}
+
+	/* Compact navbar for mobile */
+	.navbar-brand {
+		font-size: 1rem;
+	}
+
+	.navbar-toggler {
+		padding: 0.25rem 0.5rem;
+		font-size: 0.9rem;
 	}
 }
+
+/* Native App Feel - Active states */
+.btn:active, .nav-link:active, .table tbody tr:active {
+	opacity: 0.7;
+	transform: scale(0.98);
+	transition: transform 0.1s ease;
+}
+
+/* Scrollbar styling for a cleaner look */
+::-webkit-scrollbar {
+	width: 6px;
+}
+::-webkit-scrollbar-track {
+	background: #000;
+}
+::-webkit-scrollbar-thumb {
+	background: #333;
+	border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+	background: var(--accent-blue);
+}
+
