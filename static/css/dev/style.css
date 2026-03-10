@@ -125,8 +125,9 @@ h1, h2, h3, h4, .navbar-brand {
 }
 
 .navbar {
-	background: #000000 !important;
+	background: rgba(0, 0, 0, 0.5) !important;
 	backdrop-filter: var(--glass-blur);
+	-webkit-backdrop-filter: var(--glass-blur);
 	border-bottom: 2px solid var(--accent-blue);
 	padding: 0.5rem 1rem !important;
 }
