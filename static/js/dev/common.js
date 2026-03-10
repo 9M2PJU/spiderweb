@@ -172,8 +172,8 @@ function showTime() {
 }
 
 
-const clockElement = document.getElementById('MyClockDisplay');
-if (clockElement) {
+// Initialize clocks if HeroClockUTC exists (Premium UI)
+if (document.getElementById('HeroClockUTC')) {
 	showTime();
 }
 document.getElementById('copyDate').innerHTML = '2020-'.concat(new Date().getFullYear());
