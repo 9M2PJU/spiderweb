@@ -462,6 +462,20 @@ span.search-callsign {
 	border-left: none !important;
 	background-color: rgba(16, 185, 129, 0.1) !important;
 	border-bottom: 1px solid rgba(16, 185, 129, 0.2) !important;
+	animation: spot-slide-in 0.6s ease-out forwards;
+}
+
+@keyframes spot-slide-in {
+	0% {
+		transform: translateY(-20px);
+		opacity: 0;
+		background-color: rgba(16, 185, 129, 0.4) !important;
+	}
+	100% {
+		transform: translateY(0);
+		opacity: 1;
+		background-color: rgba(16, 185, 129, 0.1) !important;
+	}
 }
 
 .spot-new td:first-child {

@@ -58,6 +58,9 @@ class table_builder {
 			if (typeof showToast === 'function') {
 				showToast(`<strong>${spot.de}</strong> &rarr; <strong>${spot.dx}</strong> on ${spot.freq} MHz`, 'Real-time Spot');
 			}
+			if (typeof showPWANotification === 'function') {
+				showPWANotification('New DX Spot', `${spot.de} -> ${spot.dx} on ${spot.freq} MHz`);
+			}
 			if (typeof playNewSpotSound === 'function') {
 				playNewSpotSound();
 			}
