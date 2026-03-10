@@ -109,18 +109,18 @@ h1, h2, h3, h4, .navbar-brand {
 	background: transparent;
 	color: var(--text-main) !important;
 	border-collapse: separate;
-	border-spacing: 0 8px; /* Increased spacing between rows */
+	border-spacing: 0 4px; /* Reduced spacing between rows */
 }
 
 .table thead th {
 	border: none;
 	background: rgba(59, 130, 246, 0.1);
 	color: var(--accent-blue);
-	font-size: 0.75rem;
+	font-size: 0.7rem; /* Reduced font size */
 	font-weight: 700;
 	text-transform: uppercase;
 	letter-spacing: 0.1em;
-	padding: 1rem 0.75rem;
+	padding: 0.5rem 0.75rem; /* Reduced padding */
 	border-radius: 4px;
 }
 
@@ -141,9 +141,10 @@ h1, h2, h3, h4, .navbar-brand {
 	background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
 	color: #000 !important;
 	font-weight: 700;
-	padding: 4px 10px;
+	padding: 2px 8px; /* Reduced padding */
 	border-radius: 4px;
 	font-family: 'Inter', monospace;
+	font-size: 0.85rem; /* Reduced font size */
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
@@ -189,7 +190,7 @@ tr:hover .search-icon {
 .table td {
 	border: none !important;
 	vertical-align: middle;
-	padding: 1.25rem 0.75rem !important; /* Slightly more padding for airiness */
+	padding: 0.5rem 0.75rem !important; /* Significantly reduced vertical padding */
 }
 
 .badge-responsive {
