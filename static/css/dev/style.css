@@ -458,11 +458,18 @@ span.search-callsign {
 	border-radius: 3px;
 }
 
-.spot-new {
+.spot-new td {
+	border-left: none !important;
+	background-color: rgba(16, 185, 129, 0.1) !important;
+	border-bottom: 1px solid rgba(16, 185, 129, 0.2) !important;
+}
+
+.spot-new td:first-child {
 	border-left: 4px solid var(--accent-blue) !important;
-	background-color: rgba(16, 185, 129, 0.05) !important;
-	box-shadow: inset 5px 0 15px -10px var(--accent-blue);
-	transition: background-color 2s ease-out;
+}
+
+.spot-new .callsign-text {
+	color: var(--accent-blue) !important;
 }
 
 /* Toast Notifications */

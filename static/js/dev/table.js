@@ -56,7 +56,7 @@ class table_builder {
 
 			// Trigger visual/audio feedback for single inject
 			if (typeof showToast === 'function') {
-				showToast(`New spot: <strong>${spot.dx}</strong> on ${spot.freq} MHz`, 'Real-time Update');
+				showToast(`<strong>${spot.de}</strong> &rarr; <strong>${spot.dx}</strong> on ${spot.freq} MHz`, 'Real-time Spot');
 			}
 			if (typeof playNewSpotSound === 'function') {
 				playNewSpotSound();
@@ -296,8 +296,8 @@ class table_builder {
 				const spotCount = data.length;
 				const latestSpot = data[0];
 				const message = spotCount === 1 
-					? `New spot: <strong>${latestSpot.dx}</strong> on ${latestSpot.freq} MHz`
-					: `Received <strong>${spotCount}</strong> new DX spots`;
+					? `<strong>${latestSpot.de}</strong> &rarr; <strong>${latestSpot.dx}</strong> on ${latestSpot.freq} MHz`
+					: `Received <strong>${spotCount}</strong> new spots (Latest: ${latestSpot.dx})`;
 				
 				if (typeof showToast === 'function') {
 					showToast(message, 'DX Cluster Update');

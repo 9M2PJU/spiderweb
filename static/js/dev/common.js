@@ -226,10 +226,21 @@ function playNewSpotSound() {
 	const isEnabled = localStorage.getItem('newSpotSound') === 'true';
 	if (!isEnabled) return;
 
-	// Small base64 beep (0.1s sine wave)
-	const beep = new Audio('data:audio/wav;base64,UklGRl9vT19XQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YTdvT18AZFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQQ==');
-	beep.volume = 0.4;
-	beep.play().catch(e => console.log('Audio play blocked by browser policy. User must interact first.'));
+	// Use a more robust beep (400Hz for 0.15s)
+	const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+	const oscillator = audioCtx.createOscillator();
+	const gainNode = audioCtx.createGain();
+
+	oscillator.type = 'sine';
+	oscillator.frequency.setValueAtTime(440, audioCtx.currentTime); 
+	gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
+	gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.15);
+
+	oscillator.connect(gainNode);
+	gainNode.connect(audioCtx.destination);
+
+	oscillator.start();
+	oscillator.stop(audioCtx.currentTime + 0.15);
 }
 
 // Initialize toggle state from localStorage
