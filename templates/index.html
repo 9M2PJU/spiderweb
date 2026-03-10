@@ -14,11 +14,17 @@
 {% endblock %}
 {% block filters %}
 <div class="row mx-auto justify-content-between align-middle bg-dark">
-	<div class="mx-auto">
+	<div class="mx-auto d-flex align-items-center gap-3 py-2">
 		<button class="btn btn-primary btn-sm" type="button" data-toggle="collapse" aria-expanded="false"
 			aria-label="filter" data-bs-toggle="collapse" data-bs-target="#collapseFilters">
 			<span class="bi-funnel-fill" role="button" aria-label="funnel-fill"></span>
 		</button>
+		<div class="form-check form-switch mb-0">
+			<input class="form-check-input" type="checkbox" id="soundToggle">
+			<label class="form-check-label text-white small fw-bold" for="soundToggle">
+				<i class="bi bi-volume-up-fill"></i>
+			</label>
+		</div>
 	</div>
 </div>
 <div class="row  mx-auto">
@@ -56,12 +62,6 @@
 				<div class="form-check form-switch">
 					<input class="form-check-input" type="checkbox" id="exclft4">
 					<label class="form-check-label text-white" for="exclft4">Excl FT4</label>
-				</div>
-				<div class="form-check form-switch mt-2 border-top pt-2" style="border-color: rgba(16, 185, 129, 0.2) !important;">
-					<input class="form-check-input" type="checkbox" id="soundToggle">
-					<label class="form-check-label text-white fw-bold" for="soundToggle">
-						<i class="bi bi-volume-up-fill me-1"></i> New Spot Sound
-					</label>
 				</div>
 			</div>
 			
