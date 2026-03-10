@@ -43,11 +43,21 @@ class table_builder {
 		
 		const row = this.#buildRow(spot, true, dt_current, callsign);
 		const tableBody = document.getElementById(this.selector);
-		
+		if (tableBody) {
+			tableBody.prepend(row);
+			// Update internal state
+			this.current_data.unshift(spot);
+			
 			// Transition highlight removal after 5s
 			setTimeout(() => {
 				row.classList.remove('spot-new');
 			}, 5000);
+
+			// Limit table size to keep performance high
+			if (tableBody.children.length > 100) {
+				tableBody.removeChild(tableBody.lastChild);
+				this.current_data.pop();
+			}
 
 			// Trigger visual/audio feedback for single inject
 			if (typeof showToast === 'function') {
