@@ -6,10 +6,27 @@
 	{% endblock title %}
 	{% block head %}
 	<meta charset="utf-8">
-	<meta name="description" content="Web Ham Radio DX Cluster and spot search">
 	<meta name="author" content="Corrado Gerbaldo - IU1BOW">
+	<meta name="description" content="Spiderweb - Tactical Ham Radio DX Cluster Dashboard. High-performance, real-time spot monitoring and radio propagation analytics.">
+	<meta name="keywords" content="ham radio, dx cluster, spiderweb, dx spots, amateur radio, propagation, radio dashboard, tactical radio, Corrado Gerbaldo, IU1BOW">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="theme-color" content="#000000">
+
+	<!-- Open Graph / Facebook -->
+	<meta property="og:type" content="website">
+	<meta property="og:url" content="{{ request.url }}">
+	<meta property="og:title" content="Spiderweb - Tactical DX Cluster Dashboard">
+	<meta property="og:description" content="High-performance, real-time ham radio DX spot monitoring system. Optimized for tactical and professional use.">
+	<meta property="og:image" content="/static/images/icons/icon-192x192.png">
+
+	<!-- Twitter -->
+	<meta property="twitter:card" content="summary_large_image">
+	<meta property="twitter:url" content="{{ request.url }}">
+	<meta property="twitter:title" content="Spiderweb - Tactical DX Cluster Dashboard">
+	<meta property="twitter:description" content="High-performance, real-time ham radio DX spot monitoring system. Optimized for tactical and professional use.">
+	<meta property="twitter:image" content="/static/images/icons/icon-192x192.png">
+
+	<link rel="canonical" href="{{ request.url_root }}">
 	<link rel="stylesheet" href="/static/css/dev/style.css?v={{ config['VERSION'] }}">
 
 	<link rel="preconnect" href="/static" crossorigin>
