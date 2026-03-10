@@ -1,6 +1,7 @@
 __author__ = "IU1BOW - Corrado"
 import flask
-from flask import request, render_template
+from flask import request, render_template, session
+from flask_socketio import SocketIO, emit
 from flask_wtf.csrf import CSRFProtect
 from flask_minify import minify
 import datetime
@@ -44,6 +45,7 @@ logger.info("Version:"+app.config["VERSION"] )
 inline_script_nonce = ""
 
 csrf = CSRFProtect(app)
+socketio = SocketIO(app, async_mode='eventlet', cors_allowed_origins="*")
 
 logger.debug(app.config)
 
@@ -251,6 +253,60 @@ def visitor_count():
         visits[user_ip] = 1
     else:
         visits[user_ip] += 1
+
+# WEB SOCKETS BACKGROUND TASK
+last_broadcast_rowid = 0
+
+def background_spot_poll():
+    global last_broadcast_rowid
+    logger.info("Starting background spot poll for WebSockets")
+    
+    # Initialize last_broadcast_rowid with the current latest rowid in DB
+    try:
+        qm.qry("SELECT MAX(rowid) FROM spots")
+        res = qm.get_data()
+        if res and res[0][0]:
+            last_broadcast_rowid = res[0][0]
+            logger.info(f"Initialized last_broadcast_rowid to {last_broadcast_rowid}")
+    except Exception as e:
+        logger.error(f"Error initializing WebSocket rowid: {e}")
+
+    while True:
+        socketio.sleep(3) # Check every 3 seconds for new data
+        try:
+            # Query for NEW spots only
+            qs = f"SELECT * FROM spots WHERE rowid > {last_broadcast_rowid} ORDER BY rowid DESC LIMIT 50"
+            qm.qry(qs)
+            new_data = qm.get_data()
+            headers = qm.get_headers()
+            
+            if new_data:
+                payload = []
+                prefix_cache = {}
+                for result in new_data:
+                    main_result = dict(zip(headers, result))
+                    dx_call = main_result["dx"]
+                    if dx_call not in prefix_cache:
+                        prefix_cache[dx_call] = pfxt.find(dx_call)
+                    
+                    search_prefix = prefix_cache[dx_call]
+                    main_result["country"] = search_prefix["country"]
+                    main_result["iso"] = search_prefix["iso"]
+                    payload.append(main_result)
+                
+                # Update last rowid to the newest one found
+                last_broadcast_rowid = max([r[0] for r in new_data])
+                
+                # Broadcast to all clients
+                logger.info(f"Broadcasting {len(payload)} new spots via WebSocket")
+                socketio.emit('new_spots', {'spots': payload})
+                
+        except Exception as e:
+            logger.error(f"WebSocket background error: {e}")
+
+@socketio.on('connect')
+def handle_connect():
+    logger.info("Client connected to WebSocket")
 
 # ROUTINGS
 @app.route("/spotlist", methods=["POST"])
@@ -530,7 +586,7 @@ def add_security_headers(resp):
         f"script-src 'self' cdnjs.cloudflare.com cdn.jsdelivr.net 'nonce-{inline_script_nonce}'; "
         "style-src 'self' 'unsafe-inline' cdnjs.cloudflare.com cdn.jsdelivr.net fonts.googleapis.com; "
         "object-src 'none'; base-uri 'self'; "
-        "connect-src 'self' cdn.jsdelivr.net cdnjs.cloudflare.com sidc.be prop.kc2g.com www.hamqsl.com; "
+        "connect-src 'self' ws: wss: cdn.jsdelivr.net cdnjs.cloudflare.com sidc.be prop.kc2g.com www.hamqsl.com; "
         "font-src 'self' cdn.jsdelivr.net fonts.gstatic.com; "
         "frame-src 'self'; "
         "frame-ancestors 'none'; "
@@ -550,4 +606,6 @@ def add_security_headers(resp):
 if __name__ == "__main__":
     # Run the who_is_connected() function at startup
     who_is_connected()
-    app.run(host="0.0.0.0")
+    # Start the background task for spots
+    socketio.start_background_task(background_spot_poll)
+    socketio.run(app, host="0.0.0.0", port=5000, log_output=True)

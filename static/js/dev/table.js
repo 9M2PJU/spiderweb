@@ -28,6 +28,47 @@ class table_builder {
 	resetData() {
 		this.current_data = [];
 	}
+
+	/**
+	 * Single row injection for WebSockets
+	 * @param spot {object}
+	 * @param callsign {string}
+	 */
+	injectSpot(spot, callsign = '') {
+		// Check if spot already exists in current data (avoid duplicates)
+		if (this.current_data.some(s => s.rowid === spot.rowid)) return;
+
+		let d = new Date();
+		let dt_current = ('0' + d.getUTCDate()).slice(-2) + '/' + ('0' + (d.getUTCMonth() + 1)).slice(-2) + '/' + d.getUTCFullYear();
+		
+		const row = this.#buildRow(spot, true, dt_current, callsign);
+		const tableBody = document.getElementById(this.selector);
+		
+		if (tableBody) {
+			tableBody.prepend(row);
+			// Update internal state
+			this.current_data.unshift(spot);
+			// Limit table size to keep performance high
+			if (tableBody.children.length > 100) {
+				tableBody.removeChild(tableBody.lastChild);
+				this.current_data.pop();
+			}
+
+			// Trigger visual/audio feedback for single inject
+			if (typeof showToast === 'function') {
+				showToast(`New spot: <strong>${spot.dx}</strong> on ${spot.freq} MHz`, 'Real-time Update');
+			}
+			if (typeof playNewSpotSound === 'function') {
+				playNewSpotSound();
+			}
+
+			// Re-init popovers for new element
+			var popoverTriggerList = [].slice.call(row.querySelectorAll('[data-bs-toggle="popover"]'));
+			popoverTriggerList.map(function (popoverTriggerEl) {
+				return new bootstrap.Popover(popoverTriggerEl);
+			});
+		}
+	}
 	/**
 	 * @param line {object}  with the data of a single spot
 	 * @param isnew {boolean} is the new rows indicator
@@ -284,6 +325,21 @@ const adxo_url = 'https://www.ng3k.com/misc/adxo.html';
 const qrz_url = 'https://www.qrz.com/db/';
 const tb = new table_builder('bodyspot');
 var params_sv = {};
+
+// SOCKET.IO INTEGRATION
+const socket = io();
+
+socket.on('connect', () => {
+    console.log('[Socket] Connected to server');
+});
+
+socket.on('new_spots', (data) => {
+    console.log('[Socket] Received new spots:', data.spots.length);
+    // Reverse because we want to prepend in order (oldest of the new ones first if multiple)
+    data.spots.reverse().forEach(spot => {
+        tb.injectSpot(spot, params_sv.callsign || '');
+    });
+});
 
 /**
  * Decode Announced Dx Operation (ng3k)

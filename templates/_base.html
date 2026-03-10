@@ -158,6 +158,8 @@
 		crossorigin="anonymous" 
 		referrerpolicy="no-referrer"></script>
 
+	<script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+	<script src="/static/js/dev/common.js?v={{ config['VERSION'] }}" defer nonce="{{ inline_script_nonce }}"></script>
 	<script async src="/static/js/dev/load-sw.js?v={{ config['VERSION'] }}"></script>
 	<script nonce="{{ inline_script_nonce }}">
 		{% block app_data %}
