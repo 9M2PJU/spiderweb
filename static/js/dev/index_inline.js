@@ -8,7 +8,7 @@
 var my_adxo_events = JSON.parse(my_adxo_events_json.replaceAll('\t', ''));
 //var my_adxo_events = JSON.parse(my_adxo_events_json)
 refresh_timer(); //run first data fetch
-var myRefresh = setInterval(refresh_timer, timer_interval_json);
+var myRefresh = setInterval(refresh_timer, 10000); // Live updates every 10 seconds
 window.onload = () => {
 	document.getElementById('form-filters').addEventListener('submit', mySearch);
 };
