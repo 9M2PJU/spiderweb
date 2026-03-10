@@ -48,7 +48,7 @@ class table_builder {
 
 		//Column: DE search on QRZ
 		const i_qrzde = document.createElement('i');
-		i_qrzde.className = 'bi-search';
+		i_qrzde.className = 'bi-search search-icon';
 		i_qrzde.role = 'button';
 		i_qrzde.ariaLabel = line.de;
 		const a_qrzde = document.createElement('a');
@@ -70,6 +70,7 @@ class table_builder {
 
 		a_qrzde.appendChild(i_qrzde);
 		td_qrzde.appendChild(a_qrzde);
+		span_qrzde.className = 'callsign-text';
 		td_qrzde.appendChild(span_qrzde);
 		row.append(td_qrzde);
 
@@ -79,7 +80,7 @@ class table_builder {
 		}).format(line.freq);
 
 		const span_freq = document.createElement('span');
-		span_freq.className = 'badge bg-warning text-dark badge-responsive';
+		span_freq.className = 'freq-badge badge-responsive';
 		span_freq.textContent = freq;
 
 		const td_freq = document.createElement('td');
@@ -91,7 +92,7 @@ class table_builder {
 		var adxo = findAdxo(my_adxo_events, line.dx);
 		var adxo_link = '<a href=' + adxo_url + ' target=_blank rel=noopener >NG3K Website</a>';
 		const i_qrzdx = document.createElement('i');
-		i_qrzdx.className = 'bi-search';
+		i_qrzdx.className = 'bi-search search-icon';
 		i_qrzdx.role = 'button';
 		i_qrzdx.ariaLabel = line.dx;
 		const a_qrzdx = document.createElement('a');
@@ -130,7 +131,8 @@ class table_builder {
 		const td_qrzdx = document.createElement('td');
 		a_qrzdx.appendChild(i_qrzdx);
 		td_qrzdx.appendChild(a_qrzdx);
-		td_qrzdx.append(span_qrzdx);
+		span_qrzdx.className = 'callsign-text';
+		td_qrzdx.appendChild(span_qrzdx);
 		row.appendChild(td_qrzdx);
 
 		//Column: Flag
@@ -187,10 +189,12 @@ class table_builder {
 		const div_date_time = document.createElement('div');
 		div_date_time.className = 'd-flex flex-column';
 		const p_time = document.createElement('div');
+		p_time.className = 'utc-time';
 		p_time.textContent = tm;
 		div_date_time.appendChild(p_time);
 		if (dt != dt_current) {
 			const p_date = document.createElement('div');
+			p_date.className = 'utc-date';
 			p_date.textContent = dt;
 			div_date_time.appendChild(p_date);
 		}

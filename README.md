@@ -1,6 +1,6 @@
 <div align="center">
   <img src="static/images/icons/icon-72x72.png" width="80" height="80" alt="Spiderweb Logo" />
-  <h1>SPIDERWEB (Modern Fork)</h1>
+  <h1>9M2PJU DX Cluster Dashboard</h1>
   <p><strong>Premium Ham Radio DX Cluster Web Viewer</strong></p>
 
   [![AGPLv3.0 license](https://img.shields.io/badge/License-AGPLv3.0-blue.svg)](https://www.gnu.org/licenses/agpl-3.0.html)
