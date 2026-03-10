@@ -162,31 +162,21 @@
 		{% endblock contents %}
 	</div>
 
-	<footer class="page-footer">
-		<div class="footer-content">
-			<!-- Left: Stats -->
-			<div class="footer-stats d-none d-lg-flex">
-				<div class="stat-item">
-					<i class="bi bi-people text-emerald"></i>
-					<span>Unique Visits: <strong class="text-white">{{ visits }}</strong></span>
-				</div>
-			</div>
+	<footer class="page-footer font-small blue">
+		<div class="footer-stats text-center py-2 border-top border-emerald-o10 opacity-50">
+			<span class="bi-person-up" role="button" aria-label="funnel-fill"></span>
+			Website unique visits: <strong>{{ visits }}</strong>
+		</div>
 
-			<!-- Center: Copyright -->
-			<div class="footer-copyright">
-				<span class="copyleft">&copy;</span> 
-				<span id="copyDate"></span>
-				<span class="mx-1">/</span>
-				<a href="https://github.com/coulisse/spiderweb/" target="blank" rel="noopener">IU1BOW Spiderweb</a>
-				<span class="mx-1">/</span>
-				<span>Modded by <a href="https://hamradio.my" target="_blank" rel="noopener" class="text-emerald fw-bold">9M2PJU</a></span>
-			</div>
-
-			<!-- Right: Version -->
-			<div class="footer-version d-none d-md-block">
-				<span class="text-muted">SYSTEM STABLE</span>
-				<span class="v-badge ms-2">v2.5.8</span>
-			</div>
+		<div class="footer-copyright text-center py-3">
+			<span class="copyleft">&copy;</span> Copyleft:
+			<span id="copyDate"></span>
+			&nbsp;
+			<a href="https://github.com/coulisse/spiderweb/" target="blank" rel="noopener">IU1BOW - Spiderweb</a>
+			&nbsp;
+			<span id="version">v2.5.8</span>
+			&nbsp;
+			| modded by <a href="https://hamradio.my" target="_blank" rel="noopener" class="text-white fw-bold">9M2PJU</a>
 		</div>
 	</footer>
 	<!-- Custom JS (CONSOLIDATED AT END) -->

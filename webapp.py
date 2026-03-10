@@ -126,6 +126,8 @@ def fetch_dx_news(force=False):
                     
                 for item in items[:15]:
                     title = item.get('title', 'No Title')
+                    # Remove redundant " FROM DXnews.com" suffix if present
+                    title = title.replace(" FROM DXnews.com", "").replace(" from dxnews.com", "").strip()
                     link = item.get('link', '#')
                     news_items.append(f"<a href='{link}' target='_blank' class='text-emerald text-decoration-none hover-glow'>{title}</a>")
                 

@@ -246,6 +246,7 @@ header {
 .footer-copyright a:hover {
 	text-decoration: underline;
 }
+.rss-container {
 	height: 34px;
 	overflow: hidden;
 	position: relative;
