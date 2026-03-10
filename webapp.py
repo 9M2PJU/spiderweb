@@ -12,6 +12,7 @@ import logging.config
 import asyncio
 import requests
 import xmltodict
+import time
 from lib.dxtelnet import fetch_who_and_version
 from lib.adxo import get_adxo_events
 from lib.qry import query_manager
@@ -117,12 +118,18 @@ pfxt = prefix_table()
 # create object query manager
 qm = query_manager()
 
+# Cache for DX calls to avoid expensive DB queries
+dx_calls_cache = {
+    "data": [],
+    "last_updated": 0
+}
+DX_CALLS_CACHE_TTL = 300  # 5 minutes
+
 # the main query to show spots
 # it gets url parameter in order to apply the build the right query
 # and apply the filter required. It returns a json with the spots
 def spotquery(parameters):
     try:
-
         if 'callsign' in parameters:
             logger.debug('search callsign')
             query_string = query_build_callsign(logger,parameters['callsign'] )
@@ -140,11 +147,21 @@ def spotquery(parameters):
             logger.warning("no data found")
 
         payload = []
+        
+        # Performance: Cache for prefix table lookups within this request
+        prefix_cache = {}
+        
         for result in data:
             # create dictionary from recorset
             main_result = dict(zip(row_headers, result))
-            # find the country in prefix table
-            search_prefix = pfxt.find(main_result["dx"])
+            
+            # find the country in prefix table (using request-local cache)
+            dx_call = main_result["dx"]
+            if dx_call not in prefix_cache:
+                prefix_cache[dx_call] = pfxt.find(dx_call)
+            
+            search_prefix = prefix_cache[dx_call]
+            
             # merge recordset and contry prefix
             main_result["country"] = search_prefix["country"]
             main_result["iso"] = search_prefix["iso"]
@@ -274,7 +291,13 @@ def spots():
 #Show all dx spot callsigns 
 def get_dx_calls():
     
+    current_time = time.time()
+    if dx_calls_cache["data"] and (current_time - dx_calls_cache["last_updated"] < DX_CALLS_CACHE_TTL):
+        logger.debug("Returning cached DX calls")
+        return dx_calls_cache["data"]
+
     try:
+        logger.info("Refreshing DX calls cache (heavy query)")
         query_string = query_build_callsing_list()
         qm.qry(query_string)
         data = qm.get_data()
@@ -284,12 +307,17 @@ def get_dx_calls():
         for result in data:
             main_result = dict(zip(row_headers, result))
             payload.append(main_result["dx"])
+        
+        dx_calls_cache["data"] = payload
+        dx_calls_cache["last_updated"] = current_time
+        
         logger.debug("last DX Callsigns:")
         logger.debug(payload)
         return payload
     
     except Exception as e:
-        return []
+        logger.error(f"Error refreshing DX calls: {e}")
+        return dx_calls_cache["data"] # Return stale data if query fails
     
 
 

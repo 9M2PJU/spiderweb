@@ -123,7 +123,7 @@ class table_builder {
 			i_adxo.setAttribute('data-bs-placement', 'auto');
 			i_adxo.setAttribute('data-bs-html', 'true');
 			i_adxo.setAttribute('data-bs-title', 'Announced DX Op.: ' + adxo.summary);
-			i_adxo.setAttribute('data-bs-content', adxo.description + 'data from  ' + adxo_link);
+			i_adxo.setAttribute('data-bs-content', adxo.description + ' data from ' + adxo_link);
 			span_qrzdx.appendChild(i_adxo);
 		}
 

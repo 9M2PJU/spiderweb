@@ -1,5 +1,5 @@
 ### Change log
-Date: 25/04/2025                    
+Date: 10/03/2026                    
 Release: v2.5.8
 
 **NOTE** this version works only from dxspider version 560+
