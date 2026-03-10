@@ -231,8 +231,21 @@ header {
 	letter-spacing: 0.03em;
 }
 
-/* RSS Scroller */
-.rss-container {
+.footer-version {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+}
+
+.footer-copyright a {
+	color: var(--emerald);
+	text-decoration: none;
+	font-weight: 600;
+}
+
+.footer-copyright a:hover {
+	text-decoration: underline;
+}
 	height: 34px;
 	overflow: hidden;
 	position: relative;
