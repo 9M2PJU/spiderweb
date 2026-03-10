@@ -44,15 +44,10 @@ class table_builder {
 		const row = this.#buildRow(spot, true, dt_current, callsign);
 		const tableBody = document.getElementById(this.selector);
 		
-		if (tableBody) {
-			tableBody.prepend(row);
-			// Update internal state
-			this.current_data.unshift(spot);
-			// Limit table size to keep performance high
-			if (tableBody.children.length > 100) {
-				tableBody.removeChild(tableBody.lastChild);
-				this.current_data.pop();
-			}
+			// Transition highlight removal after 5s
+			setTimeout(() => {
+				row.classList.remove('spot-new');
+			}, 5000);
 
 			// Trigger visual/audio feedback for single inject
 			if (typeof showToast === 'function') {
@@ -88,9 +83,9 @@ class table_builder {
 			*/
 		} else if (isnew && !this.first_time) {
 			row.className = 'spot-new';
-			// Keep highlight for a few seconds then fade background but keep border
+			// Transition highlight removal after 5s
 			setTimeout(() => {
-				row.style.backgroundColor = 'transparent';
+				row.classList.remove('spot-new');
 			}, 5000);
 		}
 
