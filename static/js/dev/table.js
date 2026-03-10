@@ -246,6 +246,19 @@ class table_builder {
 			//replace current data with merge
 			this.current_data = merge_data;
 
+			// Trigger Toast for new spots (only after initial load)
+			if (data.length > 0 && !this.first_time) {
+				const spotCount = data.length;
+				const latestSpot = data[0];
+				const message = spotCount === 1 
+					? `New spot: <strong>${latestSpot.dx}</strong> on ${latestSpot.freq} MHz`
+					: `Received <strong>${spotCount}</strong> new DX spots`;
+				
+				if (typeof showToast === 'function') {
+					showToast(message, 'DX Cluster Update');
+				}
+			}
+
 			var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
 			var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
 				return new bootstrap.Popover(popoverTriggerEl);

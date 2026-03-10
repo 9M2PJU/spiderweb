@@ -445,3 +445,41 @@ span.search-callsign {
 	background-color: #000000 !important; /* No background color, only border */
 }
 
+/* Toast Notifications */
+.custom-toast {
+	background-color: rgba(10, 10, 10, 0.9) !important;
+	backdrop-filter: blur(10px);
+	border: 1px solid var(--accent-blue) !important;
+	color: #ffffff !important;
+	min-width: 280px;
+	border-radius: 8px;
+	margin-bottom: 10px;
+	animation: slideIn 0.3s ease-out;
+}
+
+.custom-toast-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 10px 15px;
+	border-bottom: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.custom-toast-body {
+	padding: 12px 15px;
+	font-size: 0.9rem;
+}
+
+@keyframes slideIn {
+	from { transform: translateX(100%); opacity: 0; }
+	to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes fadeOut {
+	from { opacity: 1; }
+	to { opacity: 0; }
+}
+
+.toast-fade-out {
+	animation: fadeOut 0.5s forwards;
+}

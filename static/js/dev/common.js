@@ -184,6 +184,38 @@ function scrollFunction() {
 button_top.addEventListener('click', backToTop);
 
 
+/**
+ * Show a tactical toast notification
+ * @param {string} message 
+ * @param {string} title 
+ */
+function showToast(message, title = 'System Update') {
+	const container = document.getElementById('toast-container');
+	if (!container) return;
+
+	const toast = document.createElement('div');
+	toast.className = 'custom-toast';
+	toast.innerHTML = `
+		<div class="custom-toast-header">
+			<strong class="text-emerald" style="color: #10b981;"><i class="bi bi-broadcast"></i> ${title}</strong>
+			<small class="text-muted">Just now</small>
+		</div>
+		<div class="custom-toast-body">
+			${message}
+		</div>
+	`;
+
+	container.appendChild(toast);
+
+	// Remove after 3 seconds
+	setTimeout(() => {
+		toast.classList.add('toast-fade-out');
+		setTimeout(() => {
+			toast.remove();
+		}, 500);
+	}, 3000);
+}
+
 function backToTop() {
 	document.body.scrollTop = 0;
 	document.documentElement.scrollTop = 0;
