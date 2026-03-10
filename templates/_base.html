@@ -89,10 +89,6 @@
 							</li>
 							{% endfor %}
 						</ul>
-						<div class="d-none d-lg-flex align-items-center me-3 border border-emerald-o25 rounded px-2 py-1 tactical-clock-bg-navbar" style="opacity: 0.7;">
-							<div id="NavbarClockDisplay" class="text-white-50 fw-bold mono" style="font-size: 0.85rem; min-width: 65px;"></div>
-							<div class="text-emerald small ms-2 fw-bold" style="font-size: 0.6rem; opacity: 0.6;">UTC</div>
-						</div>
 						{% block callsign %}
 						<form method="POST" class="d-flex" id="form-callsign" enctype="application/x-www-form-urlencoded">
 							<input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
@@ -123,24 +119,24 @@
 					</div>
 					
 					<!-- Center: RSS News Scroller -->
-					<div class="col-md-6 d-none d-md-block">
-						<div class="rss-container border-start border-end border-emerald-o25 px-3">
-							<div class="rss-scroller text-emerald small fw-bold">
-								<span>{{ dx_news | safe if dx_news else "Loading DX Radio News..." }}</span>
+					<div class="col-md-5 d-none d-md-block">
+						<div class="rss-container">
+							<div class="rss-scroller fw-bold" style="opacity: 0.9;">
+								<span>{{ dx_news | safe if dx_news else "LOADING DX RADIO NEWS..." }}</span>
 							</div>
 						</div>
 					</div>
 					
 					<!-- Right: Big Premium Clock -->
-					<div class="col-md-3 text-end d-none d-md-block">
-						<div class="hero-clock-container bg-black-o25 rounded px-3 py-1 border border-emerald-o25 d-inline-block">
-							<div class="d-flex align-items-baseline justify-content-end">
-								<div id="HeroClockUTC" class="clock-large text-white mono me-2 lh-1"></div>
-								<div class="text-emerald fw-bold" style="font-size: 0.7rem;">UTC</div>
+					<div class="col-md-4 text-end d-none d-md-block">
+						<div class="hero-clock-container rounded-lg px-4 py-2 border border-emerald-o25 d-inline-block shadow-lg">
+							<div class="d-flex align-items-center justify-content-end mb-1">
+								<div id="HeroClockUTC" class="clock-large mono me-3 lh-1"></div>
+								<div class="text-emerald fw-bold px-2 py-0 border border-emerald-o25 rounded" style="font-size: 0.7rem; background: var(--emerald-o5);">UTC</div>
 							</div>
-							<div class="d-flex align-items-baseline justify-content-end mt-1 border-top border-emerald-o10 pt-1">
-								<div id="HeroClockLocal" class="clock-medium text-white-50 mono me-2 lh-1"></div>
-								<div class="text-white-50" style="font-size: 0.6rem;">LOCAL</div>
+							<div class="d-flex align-items-center justify-content-end border-top border-emerald-o10 pt-2 mt-1">
+								<div id="HeroClockLocal" class="clock-medium text-white-50 mono me-3 lh-1"></div>
+								<div class="text-white-50 small fw-bold px-2 border border-white-10 rounded">LOCAL</div>
 							</div>
 						</div>
 					</div>

@@ -103,29 +103,87 @@ def save_visits():
 # DX News Cache
 dx_news_cache = "Welcome to 9M2PJU DX Cluster Dashboard. Loading latest ham news..."
 last_news_fetch = 0
+news_lock = threading.Lock()
 
-def fetch_dx_news():
+def fetch_dx_news(force=False):
     global dx_news_cache, last_news_fetch
-    now = time.time()
-    if now - last_news_fetch < TIMER_NEWS:
-        return dx_news_cache
     
-    try:
-        url = "https://dxnews.com/rss/"
-        response = requests.get(url, timeout=10)
-        if response.status_code == 200:
-            data = xmltodict.parse(response.content)
-            items = data['rss']['channel']['item']
-            news_items = []
-            for item in items[:10]: # Get top 10 news
-                news_items.append(item['title'])
-            dx_news_cache = " • ".join(news_items)
-            last_news_fetch = now
-            logger.info("DX News fetched successfully")
-    except Exception as e:
-        logger.error(f"Error fetching DX News: {e}")
-    
+    with news_lock:
+        if not force and time.time() - last_news_fetch < TIMER_NEWS and dx_news_cache:
+            return dx_news_cache
+        
+        try:
+            url = "https://dxnews.com/rss.xml"
+            response = requests.get(url, timeout=10)
+            if response.status_code == 200:
+                data = xmltodict.parse(response.content)
+                items = data.get('rss', {}).get('channel', {}).get('item', [])
+                
+                news_items = []
+                # Fix for XML parsing: ensure items is a list
+                if isinstance(items, dict):
+                    items = [items]
+                    
+                for item in items[:15]:
+                    title = item.get('title', 'No Title')
+                    link = item.get('link', '#')
+                    news_items.append(f"<a href='{link}' target='_blank' class='text-emerald text-decoration-none hover-glow'>{title}</a>")
+                
+                if news_items:
+                    dx_news_cache = " • ".join(news_items)
+                    last_news_fetch = time.time()
+                    logger.info("DX News fetched successfully")
+        except Exception as e:
+            logger.error(f"Error fetching DX News: {e}")
+        
     return dx_news_cache
+
+def background_news_task():
+    """Background task to fetch news periodically."""
+    # Initial fetch
+    fetch_dx_news(force=True)
+    while True:
+        time.sleep(TIMER_NEWS)
+        fetch_dx_news(force=True)
+
+# ADXO Events Cache
+adxo_cache = []
+last_adxo_fetch = 0
+adxo_lock = threading.Lock()
+
+def fetch_adxo_events(force=False):
+    global adxo_cache, last_adxo_fetch
+    
+    with adxo_lock:
+        if not force and time.time() - last_adxo_fetch < TIMER_ADXO and adxo_cache:
+            return adxo_cache
+        
+        try:
+            from lib.adxo import get_adxo_events
+            events = get_adxo_events()
+            if events:
+                adxo_cache = events
+                last_adxo_fetch = time.time()
+                logger.info("ADXO events fetched successfully")
+        except Exception as e:
+            logger.error(f"Error fetching ADXO events: {e}")
+            
+    return adxo_cache
+
+def background_adxo_task():
+    """Background task to fetch ADXO events periodically."""
+    # Initial fetch
+    fetch_adxo_events(force=True)
+    while True:
+        time.sleep(TIMER_ADXO)
+        fetch_adxo_events(force=True)
+
+# Start background news and adxo fetchers
+news_thread = threading.Thread(target=background_news_task, daemon=True)
+news_thread.start()
+
+adxo_thread = threading.Thread(target=background_adxo_task, daemon=True)
+adxo_thread.start()
 
 # saving scheduled
 def schedule_save():
@@ -207,7 +265,7 @@ adxo_events = None
 
 def get_adxo():
     global adxo_events
-    adxo_events = get_adxo_events()
+    adxo_events = fetch_adxo_events()
     threading.Timer(TIMER_ADXO, get_adxo).start()
 get_adxo()
 

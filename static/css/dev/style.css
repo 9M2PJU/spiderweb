@@ -187,23 +187,31 @@ header {
 }
 
 .hero-clock-container {
-	min-width: 140px;
-	box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-}
-
-.bg-black-o25 {
-	background: rgba(0, 0, 0, 0.25) !important;
+	min-width: 160px;
+	background: rgba(0, 0, 0, 0.45) !important;
+	border: 1px solid var(--emerald-o25) !important;
+	box-shadow: 0 8px 32px 0 rgba(16, 185, 129, 0.1);
+	backdrop-filter: blur(4px);
+	-webkit-backdrop-filter: blur(4px);
 }
 
 .clock-large {
-	font-size: 1.6rem;
-	font-weight: 800;
-	text-shadow: 0 0 10px rgba(16, 185, 129, 0.3);
+	font-size: 2.2rem;
+	font-weight: 900;
+	color: #fff;
+	text-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
+	letter-spacing: -0.02em;
 }
 
 .clock-medium {
-	font-size: 1.1rem;
-	font-weight: 600;
+	font-size: 1.2rem;
+	font-weight: 700;
+	letter-spacing: 0.05em;
+}
+
+.hover-glow:hover {
+	text-shadow: 0 0 8px var(--emerald);
+	color: #fff !important;
 }
 
 .border-emerald-o10 {
@@ -221,26 +229,29 @@ header {
 
 /* RSS Scroller */
 .rss-container {
-	height: 30px;
+	height: 34px;
 	overflow: hidden;
 	position: relative;
 	display: flex;
 	align-items: center;
+	background: rgba(16, 185, 129, 0.03);
+	border-radius: 4px;
 }
 
 .rss-scroller {
+	display: inline-block;
 	white-space: nowrap;
 	padding-left: 100%;
-	display: inline-block;
-	animation: marquee 40s linear infinite;
-	font-size: 0.8rem;
+	animation: marquee 60s linear infinite;
+	font-size: 0.85rem;
 	text-transform: uppercase;
-	letter-spacing: 0.05em;
+	letter-spacing: 0.08em;
+	color: var(--emerald);
 }
 
 @keyframes marquee {
-	0% { transform: translate(0, 0); }
-	100% { transform: translate(-100%, 0); }
+	0% { transform: translateX(0); }
+	100% { transform: translateX(-100%); }
 }
 
 .rss-scroller:hover {
