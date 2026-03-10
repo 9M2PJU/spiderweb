@@ -156,7 +156,10 @@ function showTime() {
 }
 
 
-document.getElementById('MyClockDisplay').addEventListener('load', showTime());
+const clockElement = document.getElementById('MyClockDisplay');
+if (clockElement) {
+	showTime();
+}
 document.getElementById('copyDate').innerHTML = '2020-'.concat(new Date().getFullYear());
 
 //Get the button for return to top page

@@ -239,10 +239,10 @@ def who_is_connected():
 # Call function once at startup
 who_is_connected()
 
-#Calculate nonce token used in inline script and in csp "script-src" header
+# Calculate nonce token used in inline script and in csp "script-src" header
 def get_nonce():
     global inline_script_nonce
-    inline_script_nonce = secrets.token_hex()
+    inline_script_nonce = secrets.token_hex(16)
     return inline_script_nonce
 
 #check if it is a unique visitor
@@ -517,34 +517,33 @@ def csp_reports():
 
 @app.after_request
 def add_security_headers(resp):
-
     resp.headers["Strict-Transport-Security"] = "max-age=1000"
     resp.headers["X-Xss-Protection"] = "1; mode=block"
     resp.headers["X-Frame-Options"] = "SAMEORIGIN"
     resp.headers["X-Content-Type-Options"] = "nosniff"
     resp.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
-    #resp.headers["Access-Control-Allow-Origin"]= "sidc.be prop.kc2g.com www.hamqsl.com"
-    #resp.headers["Cache-Control"] = "public, no-cache"
     resp.headers["Cache-Control"] = "public, no-cache, must-revalidate, max-age=900"
     resp.headers["Pragma"] = "no-cache"
     resp.headers["ETag"] = app.config["VERSION"]
-    #resp.headers["Report-To"] = '{"group":"csp-endpoint", "max_age":10886400, "endpoints":[{"url":"/csp-reports"}]}'    
-    resp.headers["Content-Security-Policy"] = "\
-    default-src 'self';\
-    script-src 'self' cdnjs.cloudflare.com cdn.jsdelivr.net 'nonce-"+inline_script_nonce+"';\
-    style-src 'self' cdnjs.cloudflare.com cdn.jsdelivr.net;\
-    object-src 'none';base-uri 'self';\
-    connect-src 'self' cdn.jsdelivr.net cdnjs.cloudflare.com sidc.be prop.kc2g.com www.hamqsl.com;\
-    font-src 'self' cdn.jsdelivr.net;\
-    frame-src 'self';\
-    frame-ancestors 'none';\
-    form-action 'none';\
-    img-src 'self' data: cdnjs.cloudflare.com sidc.be prop.kc2g.com ;\
-    manifest-src 'self';\
-    media-src 'self';\
-    worker-src 'self';\
-    report-uri /csp-reports;\
-    "
+    
+    # Construct CSP with correctly typed nonce and allowed domains
+    csp = (
+        "default-src 'self'; "
+        f"script-src 'self' cdnjs.cloudflare.com cdn.jsdelivr.net 'nonce-{inline_script_nonce}'; "
+        "style-src 'self' 'unsafe-inline' cdnjs.cloudflare.com cdn.jsdelivr.net fonts.googleapis.com; "
+        "object-src 'none'; base-uri 'self'; "
+        "connect-src 'self' cdn.jsdelivr.net cdnjs.cloudflare.com sidc.be prop.kc2g.com www.hamqsl.com; "
+        "font-src 'self' cdn.jsdelivr.net fonts.gstatic.com; "
+        "frame-src 'self'; "
+        "frame-ancestors 'none'; "
+        "form-action 'self'; "
+        "img-src 'self' data: cdnjs.cloudflare.com sidc.be prop.kc2g.com; "
+        "manifest-src 'self'; "
+        "media-src 'self' data:; "
+        "worker-src 'self'; "
+        "report-uri /csp-reports;"
+    )
+    resp.headers["Content-Security-Policy"] = csp
     return resp
    
     #report-to csp-endpoint;\

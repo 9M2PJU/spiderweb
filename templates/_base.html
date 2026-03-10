@@ -10,7 +10,7 @@
 	<meta name="author" content="Corrado Gerbaldo - IU1BOW">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="theme-color" content="#000000">
-	<link rel="stylesheet" href="static/css/dev/style.css?v=2.6.0">
+	<link rel="stylesheet" href="/static/css/dev/style.css?v=2.6.0">
 
 	<link rel="preconnect" href="/static" crossorigin>
 	<link rel="preconnect" href="https://fonts.googleapis.com">
@@ -35,8 +35,8 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tom-select/2.4.1/css/tom-select.min.css" integrity="sha512-dV0cHrb/JTqn0t9UxaPyHhP4aBjgeEpBpUVULdDnuNsQq55DdKEP4nkiPffoLGVN6FXAEUCPZEZSnI3fxY64vg==" crossorigin="anonymous" referrerpolicy="no-referrer">
 
 	<!-- Custom JS (Loaded in HEAD with DEFER for correct execution order) -->
-	<script defer src="static/js/dev/common.js?v=2.6.0"></script>
-	<script defer src="static/js/dev/table.js?v=2.6.0"></script>
+	<script defer src="/static/js/dev/common.js?v=2.6.0"></script>
+	<script defer src="/static/js/dev/table.js?v=2.6.0"></script>
 		
 	{% endblock head %}
 </head>
@@ -141,7 +141,7 @@
 		crossorigin="anonymous" 
 		referrerpolicy="no-referrer"></script>
 
-	<script async src="static/js/dev/load-sw.js?v=2.6.0"></script>
+	<script async src="/static/js/dev/load-sw.js?v=2.6.0"></script>
 	<script nonce="{{ inline_script_nonce }}">
 		{% block app_data %}
 		var my_callsign = '{{mycallsign}}';

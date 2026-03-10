@@ -13,7 +13,7 @@ window.onload = () => {
 	document.getElementById('form-filters').addEventListener('submit', mySearch);
 };
 
-document.getElementById('MyClockDisplay').addEventListener('load', showTime());
+// showTime is already managed in common.js
 
 /* managing Tom Select for selecting DX callsings */
 document.addEventListener('DOMContentLoaded', function () {
