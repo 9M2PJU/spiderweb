@@ -24,10 +24,11 @@ In this fork, we have implemented critical optimizations to ensure a smooth expe
 
 | Feature | Improvement | Impact |
 | :--- | :--- | :--- |
+| **Virtualized Fetching** | Background threads for RSS/ADXO | Direct sub-page navigation (Zero lag) |
 | **Intelligent Caching** | 5-minute TTL on heavy DB queries | 90% reduction in homepage load overhead |
 | **Prefix Memoization** | Request-local cache for CTY lookups | Faster spot rendering & lower CPU usage |
 | **SQL Optimization** | Refined indices and subquery logic | Faster search and filtering responses |
-| **UI Rendering** | Efficient DOM manipulation | Reduced browser-side latency |
+| **Elite UI Rendering** | Native CSS animations & compact hero | Reduced browser-side latency & high density |
 
 ---
 
@@ -39,22 +40,26 @@ graph TD
     subgraph External_Data
         A["DXSpider Cluster (Node)"]
         B["QRZ.com / HamQSL / NG3K"]
+        B1["DXNews RSS (dxnews.com)"]
     end
 
     subgraph Backend_Flask
         C["webapp.py (Server)"]
         D["Caching Layer (TTL/Local)"]
         E["MariaDB / MySQL"]
+        F1["Background Task Manager"]
     end
 
     subgraph Frontend_UI
-        F["Bootstrap 5.3 (Glassmorphism)"]
+        F["Bootstrap 5.3 (Elite Tactical)"]
         G["ECharts (Live Stats)"]
         H["PWA Service Worker"]
     end
 
     A -- "Telnet/XML" --> C
     B -- "API/XML" --> C
+    B1 -- "RSS Fetch" --> F1
+    F1 -- "Async Data" --> C
     C <--> D
     C <--> E
     C -- "Jinja2 / JSON" --> F
@@ -66,10 +71,12 @@ graph TD
 
 ## ✨ Key Features
 - **Real-time Spotting**: View the latest 50 spots with advanced filtering (Band, Continent, Mode).
-- **Premium UI**: Modern dark theme with **Glassmorphism**, integrated typography (Inter/Outfit), and smooth transitions.
+- **Elite Tactical UI**: Modern black/emerald theme with **High-Density Hero Layout**, integrated dual-time clocks (UTC/Local), and smooth marquee news feed.
+- **Virtualized Performance**: DXNews and ADXO events are fetched in the background, ensuring near-instant page transitions to Stats and Propagation pages.
 - **Propagation Analysis**: Integrated MUF maps, solar data from HamQSL, and ECharts-powered statistics.
+- **Modern Footer**: Terminal-inspired professional footer with real-time visit tracking and system stability markers.
 - **PWA Support**: Installable as a Progressive Web App on mobile and desktop.
-- **Search Engine Optimized**: Built-in support for sitemaps and semantic HTML.
+- **SEO Optimized**: Built-in support for sitemaps and semantic HTML.
 
 ---
 
