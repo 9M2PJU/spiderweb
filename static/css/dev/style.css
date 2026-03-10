@@ -132,6 +132,12 @@ h1, h2, h3, h4, .navbar-brand {
 	border: 1px solid rgba(16, 185, 129, 0.05);
 }
 
+.table tbody tr:hover {
+	background: rgba(16, 185, 129, 0.08) !important;
+	transform: none;
+	border-left: 2px solid var(--accent-blue) !important;
+}
+
 footer {
 	background-color: #000000 !important;
 	color: var(--text-muted) !important;
@@ -183,8 +189,9 @@ footer strong {
 .utc-time {
 	font-family: 'Inter', monospace;
 	font-weight: 700;
-	color: var(--accent-blue); /* Tactical Emerald instead of white */
+	color: #ffffff; /* Reverted to white for absolute legibility on black */
 	font-size: 0.9rem;
+	text-shadow: 0 0 5px rgba(16, 185, 129, 0.5); /* Tactical glow */
 }
 
 .utc-date {
@@ -243,7 +250,7 @@ span.search-callsign {
 
 #collapseFilters {
 	margin-top: 10px;
-	background-color: #DDE2E6;
+	background-color: var(--secondary-dark) !important;
 }
 
 #spotsTable {
