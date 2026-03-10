@@ -7,8 +7,26 @@
 	--accent-blue: #38bdf8; /* Sapphire Blue */
 	--primary-dark: #020617; /* Deepest Slate */
 	--secondary-dark: #0f172a; /* Slate 900 */
-	--text-main: #f8fafc;
 	--text-muted: #94a3b8;
+}
+
+/* Force dark background on Bootstrap utility classes */
+.bg-body {
+	background-color: var(--primary-dark) !important;
+}
+
+.bg-dark {
+	background-color: var(--primary-dark) !important;
+}
+
+.table-striped > tbody > tr:nth-of-type(odd) > * {
+	background-color: rgba(15, 23, 42, 0.4) !important;
+	color: var(--text-main) !important;
+}
+
+.table-info {
+	background-color: rgba(56, 189, 248, 0.15) !important;
+	color: var(--text-main) !important;
 }
 
 body {
