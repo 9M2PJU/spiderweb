@@ -9,6 +9,9 @@
 	--secondary-dark: #0a0a0a; /* Deepest Slate */
 	--text-main: #ffffff; /* High Contrast White */
 	--text-muted: #94a3b8;
+	--emerald-o25: rgba(16, 185, 129, 0.25);
+	--emerald-o10: rgba(16, 185, 129, 0.10);
+	--emerald-o5: rgba(16, 185, 129, 0.05);
 }
 
 /* Force dark background on Bootstrap utility classes */
@@ -176,11 +179,99 @@ header {
 	box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
 }
 
+/* Tactical Clock & Hero Section Enhancements */
+.tactical-clock-bg-navbar {
+	background: rgba(16, 185, 129, 0.05) !important;
+	border: 1px solid var(--emerald-o25) !important;
+	box-shadow: inset 0 0 10px rgba(16, 185, 129, 0.03);
+}
+
+.hero-clock-container {
+	min-width: 140px;
+	box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.bg-black-o25 {
+	background: rgba(0, 0, 0, 0.25) !important;
+}
+
+.clock-large {
+	font-size: 1.6rem;
+	font-weight: 800;
+	text-shadow: 0 0 10px rgba(16, 185, 129, 0.3);
+}
+
+.clock-medium {
+	font-size: 1.1rem;
+	font-weight: 600;
+}
+
+.border-emerald-o10 {
+	border: 1px solid var(--emerald-o10) !important;
+}
+
+.border-emerald-o25 {
+	border: 1px solid var(--emerald-o25) !important;
+}
+
+.extra-small {
+	font-size: 0.65rem;
+	letter-spacing: 0.03em;
+}
+
+/* RSS Scroller */
+.rss-container {
+	height: 30px;
+	overflow: hidden;
+	position: relative;
+	display: flex;
+	align-items: center;
+}
+
+.rss-scroller {
+	white-space: nowrap;
+	padding-left: 100%;
+	display: inline-block;
+	animation: marquee 40s linear infinite;
+	font-size: 0.8rem;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+}
+
+@keyframes marquee {
+	0% { transform: translate(0, 0); }
+	100% { transform: translate(-100%, 0); }
+}
+
+.rss-scroller:hover {
+	animation-play-state: paused;
+}
+
 .table {
 	background: transparent;
 	color: var(--text-main) !important;
 	border-collapse: separate;
 	border-spacing: 0 2px; /* Tight tactical spacing */
+}
+
+/* Tactical Clock */
+.tactical-clock-bg {
+	background: rgba(16, 185, 129, 0.05) !important;
+	border: 1px solid var(--emerald-o25) !important;
+	box-shadow: inset 0 0 10px rgba(16, 185, 129, 0.05);
+}
+
+.mono {
+	font-family: 'JetBrains Mono', 'Roboto Mono', monospace;
+	letter-spacing: 0.05em;
+}
+
+.text-emerald {
+	color: #10b981 !important;
+}
+
+.border-emerald-o25 {
+	border-color: var(--emerald-o25) !important;
 }
 
 .table thead th {

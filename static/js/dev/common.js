@@ -146,12 +146,28 @@ function setText(id, newvalue) {
 }
 
 function showTime() {
-	let date = new Date();
-	let utc = new Date(date.getTime() + date.getTimezoneOffset() * 60000);
-	let time = utc.toTimeString().split(' ')[0];
-	time = time.split(':')[0] + ':' + time.split(':')[1];
-	document.getElementById('MyClockDisplay').innerText = time;
-	document.getElementById('MyClockDisplay').textContent = time;
+	const now = new Date();
+	const h = String(now.getUTCHours()).padStart(2, '0');
+	const m = String(now.getUTCMinutes()).padStart(2, '0');
+	const s = String(now.getUTCSeconds()).padStart(2, '0');
+	const utcString = `${h}:${m}:${s}`;
+
+	const localH = String(now.getHours()).padStart(2, '0');
+	const localM = String(now.getMinutes()).padStart(2, '0');
+	const localS = String(now.getSeconds()).padStart(2, '0');
+	const localString = `${localH}:${localM}:${localS}`;
+	
+	// Update Navbar Clock (Legacy/Backup)
+	const navClock = document.getElementById('NavbarClockDisplay');
+	if (navClock) navClock.textContent = utcString;
+
+	// Update Hero Clocks (Premium UI)
+	const heroUTC = document.getElementById('HeroClockUTC');
+	const heroLocal = document.getElementById('HeroClockLocal');
+	
+	if (heroUTC) heroUTC.textContent = utcString;
+	if (heroLocal) heroLocal.textContent = localString;
+
 	setTimeout(showTime, 1000);
 }
 

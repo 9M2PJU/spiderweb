@@ -24,6 +24,7 @@ from lib.qry_builder import query_build, query_build_callsign, query_build_calls
 TIMER_VISIT = 1000
 TIMER_ADXO = 12 * 3600
 TIMER_WHO = 7 * 60
+TIMER_NEWS = 30 * 60 # 30 minutes for news
 
 logging.config.fileConfig("cfg/webapp_log_config.ini", disable_existing_loggers=True)
 logger = logging.getLogger(__name__)
@@ -98,6 +99,33 @@ def save_visits():
     with open(visits_file_path, "w") as json_file:
         json.dump(visits, json_file)
     logger.info('visit saved on: '+ visits_file_path)
+
+# DX News Cache
+dx_news_cache = "Welcome to 9M2PJU DX Cluster Dashboard. Loading latest ham news..."
+last_news_fetch = 0
+
+def fetch_dx_news():
+    global dx_news_cache, last_news_fetch
+    now = time.time()
+    if now - last_news_fetch < TIMER_NEWS:
+        return dx_news_cache
+    
+    try:
+        url = "https://dxnews.com/rss/"
+        response = requests.get(url, timeout=10)
+        if response.status_code == 200:
+            data = xmltodict.parse(response.content)
+            items = data['rss']['channel']['item']
+            news_items = []
+            for item in items[:10]: # Get top 10 news
+                news_items.append(item['title'])
+            dx_news_cache = " • ".join(news_items)
+            last_news_fetch = now
+            logger.info("DX News fetched successfully")
+    except Exception as e:
+        logger.error(f"Error fetching DX News: {e}")
+    
+    return dx_news_cache
 
 # saving scheduled
 def schedule_save():
@@ -337,6 +365,7 @@ def spots():
             continents=continents_cq,
             bands=band_frequencies,
             dx_calls=get_dx_calls(),
+            dx_news=fetch_dx_news(),
         )
     )
     return response
@@ -405,6 +434,7 @@ def plots():
             dxspider_version=whoj.get("version", "Unknown"),
             continents=continents_cq,
             bands=band_frequencies,
+            dx_news=fetch_dx_news(),
         )
     )
     return response
@@ -434,42 +464,14 @@ def propagation():
             mail=cfg["mail"],
             menu_list=cfg["menu"]["menu_list"],
             visits=len(visits),                     
-            solar_data=solar_data
+            solar_data=solar_data,
+            dx_news=fetch_dx_news(),
         )
     )
 
     #response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
     return response
 
-@app.route("/cookies.html", methods=["GET"])
-def cookies():
-    response = flask.Response(
-        render_template(
-            "cookies.html",
-            inline_script_nonce=get_nonce(),          
-            mycallsign=cfg["mycallsign"],
-            telnet=cfg["telnet"]["telnet_host"]+":"+cfg["telnet"]["telnet_port"],
-            mail=cfg["mail"],
-            menu_list=cfg["menu"]["menu_list"],
-            visits=len(visits),                     
-        )
-    )
-    return response
-
-@app.route("/privacy.html", methods=["GET"])
-def privacy():
-    response = flask.Response(
-        render_template(
-            "privacy.html",
-            inline_script_nonce=get_nonce(),          
-            mycallsign=cfg["mycallsign"],
-            telnet=cfg["telnet"]["telnet_host"]+":"+cfg["telnet"]["telnet_port"],
-            mail=cfg["mail"],
-            menu_list=cfg["menu"]["menu_list"],
-            visits=len(visits),                     
-        )
-    )
-    return response
 
 @app.route("/sitemap.xml")
 def sitemap():
@@ -494,6 +496,7 @@ def callsign():
             adxo_events=adxo_events,
             continents=continents_cq,
             bands=band_frequencies,
+            dx_news=fetch_dx_news(),
         )
     )
     return response
