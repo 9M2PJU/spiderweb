@@ -125,18 +125,20 @@ h1, h2, h3, h4, .navbar-brand {
 
 .ipcs {
 	background: rgba(10, 10, 10, 0.4) !important;
-	backdrop-filter: blur(2px);
-	-webkit-backdrop-filter: blur(2px);
+	backdrop-filter: blur(4px);
+	-webkit-backdrop-filter: blur(4px);
 	border-radius: 8px !important;
-	border: 1px solid var(--accent-blue) !important;
+	border: 1px solid var(--emerald-o25) !important;
+	padding: 0.6rem 1rem !important; /* Made hero more compact */
+	margin-bottom: 1rem !important;
 }
 
 .navbar {
-	background: rgba(0, 0, 0, 0.5) !important;
-	backdrop-filter: blur(8px) saturate(180%);
-	-webkit-backdrop-filter: blur(8px) saturate(180%);
-	border-bottom: 1px solid rgba(16, 185, 129, 0.3) !important;
-	padding: 0.3rem 1.2rem !important;
+	background: rgba(0, 0, 0, 0.7) !important;
+	backdrop-filter: blur(12px) saturate(180%);
+	-webkit-backdrop-filter: blur(12px) saturate(180%);
+	border-bottom: 1px solid rgba(16, 185, 129, 0.2) !important;
+	padding: 0.25rem 1rem !important;
 	transition: all 0.3s ease;
 }
 
@@ -196,17 +198,19 @@ header {
 }
 
 .clock-large {
-	font-size: 2.2rem;
+	font-size: 2rem; /* Slighly smaller for compactness */
 	font-weight: 900;
 	color: #fff;
 	text-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
-	letter-spacing: -0.02em;
+	letter-spacing: -0.01em;
+	line-height: 1;
 }
 
 .clock-medium {
-	font-size: 1.2rem;
+	font-size: 1.1rem;
 	font-weight: 700;
 	letter-spacing: 0.05em;
+	line-height: 1;
 }
 
 .hover-glow:hover {

@@ -171,36 +171,36 @@ function showTime() {
 	setTimeout(showTime, 1000);
 }
 
-
-// Initialize clocks if HeroClockUTC exists (Premium UI)
-if (document.getElementById('HeroClockUTC')) {
-	showTime();
-}
-document.getElementById('copyDate').innerHTML = '2020-'.concat(new Date().getFullYear());
-
-//Get the button for return to top page
-let button_top = document.getElementById('btn-back-to-top');
-
-// When the user scrolls down 20px from the top of the document, show the button
-window.onscroll = function () {
-	scrollFunction();
-};
-
-function scrollFunction() {
-	if (
-		document.body.scrollTop > 20 ||
-		document.documentElement.scrollTop > 20
-	) {
-		button_top.style.display = 'block';
-	} else {
-		button_top.style.display = 'none';
+// Initialize UI Elements
+document.addEventListener('DOMContentLoaded', () => {
+	// Clock Initialization
+	const heroUTC = document.getElementById('HeroClockUTC');
+	if (heroUTC) {
+		showTime();
 	}
-}
-// When the user clicks on the button, scroll to the top of the document
-//button_top.addEventListener('click', backToTop);
 
-// When the user clicks on the button, scroll to the top of the document
-button_top.addEventListener('click', backToTop);
+	// Copyright Date
+	const copyDateEl = document.getElementById('copyDate');
+	if (copyDateEl) {
+		copyDateEl.innerHTML = '2020-' + new Date().getFullYear();
+	}
+
+	// Back to Top functionality
+	const button_top = document.getElementById('btn-back-to-top');
+	if (button_top) {
+		window.onscroll = () => {
+			if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+				button_top.style.display = 'block';
+			} else {
+				button_top.style.display = 'none';
+			}
+		};
+		button_top.addEventListener('click', () => {
+			document.body.scrollTop = 0;
+			document.documentElement.scrollTop = 0;
+		});
+	}
+});
 
 
 /**
