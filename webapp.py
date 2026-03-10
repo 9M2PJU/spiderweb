@@ -190,9 +190,7 @@ geo_graph_wdsl = WorldDxSpotsLive(logger, qm, pfxt)
 
 # Find who is connected to the cluster with DXSpider version (using a scheduled telnet connection)
 whoj = {"data": [], "version": "Unknown", "last_updated": "No data"}
-
-import datetime
-
+# Redundant import removed
 def who_is_connected():
     global whoj
     host = cfg["telnet"]["telnet_host"]
