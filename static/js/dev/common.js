@@ -145,6 +145,39 @@ function setText(id, newvalue) {
 	s.innerHTML = newvalue;
 }
 
+let globalAudioCtx;
+
+/**
+ * Initialize and unlock the AudioContext (required for mobile)
+ */
+function initAudio() {
+	if (!globalAudioCtx) {
+		globalAudioCtx = new (window.AudioContext || window.webkitAudioContext)();
+	}
+	if (globalAudioCtx.state === 'suspended') {
+		globalAudioCtx.resume();
+	}
+}
+
+/**
+ * Trigger the actual beep sound
+ */
+function triggerBeep(ctx) {
+	const oscillator = ctx.createOscillator();
+	const gainNode = ctx.createGain();
+
+	oscillator.type = 'sine';
+	oscillator.frequency.setValueAtTime(440, ctx.currentTime); 
+	gainNode.gain.setValueAtTime(0.1, ctx.currentTime);
+	gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.15);
+
+	oscillator.connect(gainNode);
+	gainNode.connect(ctx.destination);
+
+	oscillator.start();
+	oscillator.stop(ctx.currentTime + 0.15);
+}
+
 function showTime() {
 	const now = new Date();
 	const h = String(now.getUTCHours()).padStart(2, '0');
@@ -178,6 +211,10 @@ document.addEventListener('DOMContentLoaded', () => {
 	if (heroUTC) {
 		showTime();
 	}
+
+	// Audio Unlock for Mobile
+	document.addEventListener('click', initAudio, { once: true });
+	document.addEventListener('touchstart', initAudio, { once: true });
 
 	// Copyright Date
 	const copyDateEl = document.getElementById('copyDate');
@@ -235,28 +272,21 @@ function showToast(message, title = 'System Update') {
 	}, 5000);
 }
 
-/**
- * Play a tactical short beep for new spots
- */
 function playNewSpotSound() {
 	const isEnabled = localStorage.getItem('newSpotSound') === 'true';
 	if (!isEnabled) return;
 
-	// Use a more robust beep (400Hz for 0.15s)
-	const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-	const oscillator = audioCtx.createOscillator();
-	const gainNode = audioCtx.createGain();
+	if (!globalAudioCtx) initAudio();
 
-	oscillator.type = 'sine';
-	oscillator.frequency.setValueAtTime(440, audioCtx.currentTime); 
-	gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
-	gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.15);
-
-	oscillator.connect(gainNode);
-	gainNode.connect(audioCtx.destination);
-
-	oscillator.start();
-	oscillator.stop(audioCtx.currentTime + 0.15);
+	if (globalAudioCtx && globalAudioCtx.state === 'suspended') {
+		globalAudioCtx.resume().then(() => {
+			if (globalAudioCtx.state === 'running') {
+				triggerBeep(globalAudioCtx);
+			}
+		});
+	} else if (globalAudioCtx && globalAudioCtx.state === 'running') {
+		triggerBeep(globalAudioCtx);
+	}
 }
 
 // Initialize toggle state from localStorage
@@ -266,6 +296,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		const isEnabled = localStorage.getItem('newSpotSound') === 'true';
 		soundToggle.checked = isEnabled;
 		soundToggle.addEventListener('change', (e) => {
+			initAudio(); // Unlock audio on toggle change
 			localStorage.setItem('newSpotSound', e.target.checked);
 			if (e.target.checked) playNewSpotSound(); // Test beep
 		});
