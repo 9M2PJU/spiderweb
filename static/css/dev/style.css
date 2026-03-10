@@ -160,9 +160,9 @@ h1, h2, h3, h4, .navbar-brand {
 
 .table tbody tr {
 	background-color: #000000 !important;
-	color: #ffffff !important;
-	transition: all 0.2s;
 	border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+	color: #fff !important;
+	transition: all 1s ease;
 }
 
 .table tbody tr:hover, .table tbody tr:hover > td {
@@ -442,7 +442,8 @@ span.search-callsign {
 
 .spot-new {
 	border-left: 3px solid var(--accent-blue) !important;
-	background-color: #000000 !important; /* No background color, only border */
+	background-color: #000000 !important;
+	transition: border-left 0.2s ease-in;
 }
 
 /* Toast Notifications */

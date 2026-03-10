@@ -44,6 +44,9 @@ class table_builder {
 			*/
 		} else if (isnew && !this.first_time) {
 			row.className = 'spot-new';
+			setTimeout(() => {
+				row.classList.remove('spot-new');
+			}, 5000);
 		}
 
 		//Column: DE search on QRZ
