@@ -199,7 +199,9 @@ class table_builder {
 			div_date_time.appendChild(p_date);
 		}
 
-		row.appendChild(div_date_time);
+		const td_utc = document.createElement('td');
+		td_utc.appendChild(div_date_time);
+		row.appendChild(td_utc);
 
 		//Finally append the row created to the table
 		return row;

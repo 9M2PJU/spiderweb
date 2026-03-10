@@ -10,6 +10,8 @@
 	<meta name="author" content="Corrado Gerbaldo - IU1BOW">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="theme-color" content="#000000">
+	<link rel="stylesheet" href="static/css/dev/style.css?v=2.6.0">
+
 	<link rel="preconnect" href="/static" crossorigin>
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -32,15 +34,15 @@
 	<link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/tom-select/2.4.1/css/tom-select.min.css" as="style" integrity="sha512-dV0cHrb/JTqn0t9UxaPyHhP4aBjgeEpBpUVULdDnuNsQq55DdKEP4nkiPffoLGVN6FXAEUCPZEZSnI3fxY64vg==" crossorigin="anonymous" referrerpolicy="no-referrer">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tom-select/2.4.1/css/tom-select.min.css" integrity="sha512-dV0cHrb/JTqn0t9UxaPyHhP4aBjgeEpBpUVULdDnuNsQq55DdKEP4nkiPffoLGVN6FXAEUCPZEZSnI3fxY64vg==" crossorigin="anonymous" referrerpolicy="no-referrer">
 
-	<!-- Custom Style (MUST BE LAST) -->
-	<link rel="preload" href="/static/css/dev/style.css" as="style">
-	<link rel="stylesheet" href="/static/css/dev/style.css">
+	<!-- Custom Style (REDUNDANT BUT VERSIONED) -->
+	<link rel="preload" href="/static/css/dev/style.css?v=2.6.0" as="style">
+	<link rel="stylesheet" href="/static/css/dev/style.css?v=2.6.0">
 	 
 		
 	{% endblock head %}
 </head>
 
-<body>
+<body data-bs-theme="dark">
 	<header>
 		{% block menu %}
 		<!-- nav bar -->
@@ -89,13 +91,13 @@
 		{% endblock menu %}
 	</header>
 	<div class="container-fluid mt-1 ml-0 mr-0 px-0">
-		<div class="ipcs p-4 rounded-lg m-2 shadow-sm border border-white/10 glass-card">
+		<div class="ipcs p-4 rounded-lg m-2 shadow-sm glass-card">
 			{% block titles %}
 			{% endblock %}
 			<div class="mt-3">
-				<p class="text-white-50 small mb-1">Telnet access: <a href="telnet://{{ telnet }}" class="text-white fw-medium">{{ telnet }}</a></p>
-				<p class="text-white-50 small mb-0">For cluster connection, write to <a
-						href="mailto:{{ mail }}?Subject=Connect%20my%20DxCluster%20node" target="_top" class="text-white fw-medium">{{
+				<p class="text-white small mb-1">Telnet access: <a href="telnet://{{ telnet }}" class="text-white fw-bold">{{ telnet }}</a></p>
+				<p class="text-white small mb-0">For cluster connection, write to <a
+						href="mailto:{{ mail }}?Subject=Connect%20my%20DxCluster%20node" target="_top" class="text-white fw-bold">{{
 						mail }}</a></p>
 			</div>
 		</div>
@@ -124,13 +126,7 @@
 			| modded by <a href="https://hamradio.my" target="_blank" rel="noopener" class="text-white fw-bold">9M2PJU</a>
 		</div>					
 	</footer>
-	<script async src="static/js/dev/load-sw.js"></script>
-	<script nonce="{{ inline_script_nonce }}">
-		{% block app_data %}
-		var my_callsign = '{{mycallsign}}';
-		{% endblock app_data %}
-	</script>
-	<script defer src="static/js/dev/common.js"></script>
+	<!-- Custom JS (CONSOLIDATED AT END) -->
 
 	<!-- Bootstrap -->
 	<script defer src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"
@@ -143,11 +139,20 @@
 		crossorigin="anonymous" 
 		referrerpolicy="no-referrer"></script>
 
+	<script async src="static/js/dev/load-sw.js?v=2.6.0"></script>
+	<script nonce="{{ inline_script_nonce }}">
+		{% block app_data %}
+		var my_callsign = '{{mycallsign}}';
+		{% endblock app_data %}
+	</script>
+
 	{% block app_scripts %}
-	<script async src="static/js/dev/callsign_search.js"></script>
 	{% endblock app_scripts %}
 	{% block inline_scripts %}
 	{% endblock inline_scripts %}
+
+	<script defer src="static/js/dev/common.js?v=2.6.0"></script>
+	<script defer src="static/js/dev/table.js?v=2.6.0"></script>
 	<!-- Back to top button -->
 	<button type="button" class="btn btn-secondary btn-floating btn-lg" id="btn-back-to-top">
 		<i class="bi bi-arrow-up"></i>

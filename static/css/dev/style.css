@@ -20,14 +20,23 @@
 	background-color: var(--primary-dark) !important;
 }
 
-.table-striped > tbody > tr:nth-of-type(odd) > * {
+.table-striped > tbody > tr:nth-of-type(odd) > *,
+.table-striped > tbody > tr:nth-of-type(even) > * {
 	background-color: #000000 !important;
-	color: var(--text-main) !important;
+	color: #ffffff !important;
 }
 
-.table-info {
-	background-color: rgba(16, 185, 129, 0.1) !important;
-	color: var(--text-main) !important;
+.table-info, .table-info > td, .table-info > th {
+	background-color: #000000 !important;
+	color: #ffffff !important;
+	border-left: 3px solid var(--accent-blue) !important;
+}
+
+mark {
+	background-color: rgba(16, 185, 129, 0.3) !important;
+	color: #ffffff !important;
+	padding: 0 4px;
+	border-radius: 2px;
 }
 
 body {
@@ -107,10 +116,11 @@ h1, h2, h3, h4, .navbar-brand {
 }
 
 .ipcs {
-	background-image: linear-gradient(rgba(0, 0, 0, 0.92), rgba(0, 0, 0, 0.92)), url("/static/images/background.webp");
+	background-color: #000000 !important;
+	background-image: linear-gradient(rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0.95)), url("/static/images/background.webp");
 	background-size: cover;
 	background-position: center;
-	border-radius: 4px !important;
+	border-radius: 8px !important;
 	border: 1px solid var(--accent-blue) !important;
 }
 
@@ -150,13 +160,14 @@ h1, h2, h3, h4, .navbar-brand {
 
 .table tbody tr {
 	background-color: #000000 !important;
+	color: #ffffff !important;
 	transition: all 0.2s;
-	border-bottom: 1px solid rgba(16, 185, 129, 0.1) !important;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
 }
 
-.table tbody tr:hover {
-	background: rgba(16, 185, 129, 0.08) !important;
-	border-left: 2px solid var(--accent-blue) !important;
+.table tbody tr:hover, .table tbody tr:hover > td {
+	background-color: #0a0a0a !important;
+	color: #ffffff !important;
 }
 
 footer {
