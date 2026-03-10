@@ -3,7 +3,7 @@ import flask
 from flask import request, render_template
 from flask_wtf.csrf import CSRFProtect
 from flask_minify import minify
-from datetime import datetime
+import datetime
 import secrets
 import json
 import threading
@@ -85,7 +85,7 @@ except FileNotFoundError:
     # If the file does not exist, create an empty visits dictionary
     visits = {}
 
-except json.decoder.JSONDecodeError:
+except json.JSONDecodeError:
     # If the file is not a valid json file
     logger.warning("No valid data in visit json")
     logger.warning("reset and creation of a new:" + visits_file_path )
