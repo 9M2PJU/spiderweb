@@ -21,7 +21,7 @@
 }
 
 .table-striped > tbody > tr:nth-of-type(odd) > * {
-	background-color: rgba(16, 185, 129, 0.03) !important;
+	background-color: #000000 !important;
 	color: var(--text-main) !important;
 }
 
@@ -149,7 +149,7 @@ h1, h2, h3, h4, .navbar-brand {
 }
 
 .table tbody tr {
-	background: #000000 !important;
+	background-color: #000000 !important;
 	transition: all 0.2s;
 	border-bottom: 1px solid rgba(16, 185, 129, 0.1) !important;
 }
@@ -431,6 +431,6 @@ span.search-callsign {
 
 .spot-new {
 	border-left: 3px solid var(--accent-blue) !important;
-	background-color: rgba(16, 185, 129, 0.05) !important;
+	background-color: #000000 !important; /* No background color, only border */
 }
 
