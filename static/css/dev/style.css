@@ -459,9 +459,10 @@ span.search-callsign {
 }
 
 .spot-new {
-	border-left: 3px solid var(--accent-blue) !important;
-	background-color: #000000 !important;
-	transition: border-left 0.2s ease-in;
+	border-left: 4px solid var(--accent-blue) !important;
+	background-color: rgba(16, 185, 129, 0.05) !important;
+	box-shadow: inset 5px 0 15px -10px var(--accent-blue);
+	transition: background-color 2s ease-out;
 }
 
 /* Toast Notifications */

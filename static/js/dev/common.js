@@ -210,13 +210,13 @@ function showToast(message, title = 'System Update') {
 
 	container.appendChild(toast);
 
-	// Remove after 3 seconds
+	// Remove after 5 seconds
 	setTimeout(() => {
 		toast.classList.add('toast-fade-out');
 		setTimeout(() => {
 			toast.remove();
 		}, 500);
-	}, 3000);
+	}, 5000);
 }
 
 /**

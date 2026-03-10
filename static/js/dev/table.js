@@ -44,8 +44,9 @@ class table_builder {
 			*/
 		} else if (isnew && !this.first_time) {
 			row.className = 'spot-new';
+			// Keep highlight for a few seconds then fade background but keep border
 			setTimeout(() => {
-				row.classList.remove('spot-new');
+				row.style.backgroundColor = 'transparent';
 			}, 5000);
 		}
 
