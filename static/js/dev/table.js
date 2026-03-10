@@ -260,6 +260,9 @@ class table_builder {
 				if (typeof showToast === 'function') {
 					showToast(message, 'DX Cluster Update');
 				}
+				if (typeof playNewSpotSound === 'function') {
+					playNewSpotSound();
+				}
 			}
 
 			var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));

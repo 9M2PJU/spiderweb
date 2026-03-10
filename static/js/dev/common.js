@@ -216,6 +216,32 @@ function showToast(message, title = 'System Update') {
 	}, 3000);
 }
 
+/**
+ * Play a tactical short beep for new spots
+ */
+function playNewSpotSound() {
+	const isEnabled = localStorage.getItem('newSpotSound') === 'true';
+	if (!isEnabled) return;
+
+	// Small base64 beep (0.1s sine wave)
+	const beep = new Audio('data:audio/wav;base64,UklGRl9vT19XQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YTdvT18AZFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQQ==');
+	beep.volume = 0.4;
+	beep.play().catch(e => console.log('Audio play blocked by browser policy. User must interact first.'));
+}
+
+// Initialize toggle state from localStorage
+document.addEventListener('DOMContentLoaded', () => {
+	const soundToggle = document.getElementById('soundToggle');
+	if (soundToggle) {
+		const isEnabled = localStorage.getItem('newSpotSound') === 'true';
+		soundToggle.checked = isEnabled;
+		soundToggle.addEventListener('change', (e) => {
+			localStorage.setItem('newSpotSound', e.target.checked);
+			if (e.target.checked) playNewSpotSound(); // Test beep
+		});
+	}
+});
+
 function backToTop() {
 	document.body.scrollTop = 0;
 	document.documentElement.scrollTop = 0;
