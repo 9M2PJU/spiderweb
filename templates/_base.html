@@ -34,15 +34,17 @@
 	<link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/tom-select/2.4.1/css/tom-select.min.css" as="style" integrity="sha512-dV0cHrb/JTqn0t9UxaPyHhP4aBjgeEpBpUVULdDnuNsQq55DdKEP4nkiPffoLGVN6FXAEUCPZEZSnI3fxY64vg==" crossorigin="anonymous" referrerpolicy="no-referrer">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tom-select/2.4.1/css/tom-select.min.css" integrity="sha512-dV0cHrb/JTqn0t9UxaPyHhP4aBjgeEpBpUVULdDnuNsQq55DdKEP4nkiPffoLGVN6FXAEUCPZEZSnI3fxY64vg==" crossorigin="anonymous" referrerpolicy="no-referrer">
 
-	<!-- Custom Style (REDUNDANT BUT VERSIONED) -->
-	<link rel="preload" href="/static/css/dev/style.css?v=2.6.0" as="style">
-	<link rel="stylesheet" href="/static/css/dev/style.css?v=2.6.0">
-	 
+	<!-- Custom JS (Loaded in HEAD with DEFER for correct execution order) -->
+	<script defer src="static/js/dev/common.js?v=2.6.0"></script>
+	<script defer src="static/js/dev/table.js?v=2.6.0"></script>
 		
 	{% endblock head %}
 </head>
 
 <body data-bs-theme="dark">
+	<!-- Toast Container (Top level for best visibility) -->
+	<div id="toast-container" class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 10000;"></div>
+
 	<header>
 		{% block menu %}
 		<!-- nav bar -->
@@ -150,11 +152,6 @@
 	{% endblock app_scripts %}
 	{% block inline_scripts %}
 	{% endblock inline_scripts %}
-
-	<script defer src="static/js/dev/common.js?v=2.6.0"></script>
-	<script defer src="static/js/dev/table.js?v=2.6.0"></script>
-	<!-- Toast Container -->
-	<div id="toast-container" class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 9999;"></div>
 
 	<!-- Back to top button -->
 	<button type="button" class="btn btn-secondary btn-floating btn-lg" id="btn-back-to-top">
