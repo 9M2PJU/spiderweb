@@ -1,7 +1,7 @@
 {
-  "name": "IU1BOW Spiderweb v2.5.8",
-  "description": "DXCluser for ham radio by IU1BOW",
-  "short_name": "Spiderweb",
+  "name": "9M2PJU DX Cluster Dashboard",
+  "description": "DX Cluster Dashboard for ham radio",
+  "short_name": "DXClusterDashboard",
   "theme_color": "#f3b221",
   "background_color": "#2196f3",  
   "display": "standalone",
