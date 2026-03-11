@@ -1,6 +1,6 @@
 ### Change log
 Date: 10/03/2026                    
-Release: v2.5.9
+Release: v2.5.9-9M2PJU
 
 **NOTE** this version works only from dxspider version 560+
 - Fixed Security Issue [#92](https://github.com/coulisse/spiderweb/pull/92)

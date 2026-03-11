@@ -85,6 +85,7 @@ graph TD
 ### Prerequisites
 - **Python 3.13+**
 - **MariaDB / MySQL**
+- **Release:** v2.5.9-9M2PJU
 - **DxSpider** node (v1.57 build 560+)
 
 ### 1. Database Configuration
