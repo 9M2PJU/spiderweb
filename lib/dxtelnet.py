@@ -4,37 +4,80 @@ import struct
 import logging
 import re  
 
-def parse_who(lines):
-    lines = lines.splitlines()
+def parse_who(raw_data):
+    lines = raw_data.splitlines()
     logging.debug(f"Response to 'who': {lines}")
-    row_headers = ("callsign", "type", "state", "started", "name", "average_rtt", "link")
+    
+    # 1. Identify the header line and detected columns
+    header_line = None
+    for line in lines:
+        if "CALLSIGN" in line.upper() and ("TYPE" in line.upper() or "NAME" in line.upper()):
+            header_line = line
+            break
+    
+    # Fallback to default headers if no header line is found
+    if not header_line:
+        logging.warning("No header found in WHO output, using default fallback")
+        header_line = "CALLSIGN   TYPE       STATE      STARTED            NAME             AVG RTT"
+
+    # 2. Map column names to their starting indices
+    h_up = header_line.upper()
+    possible_cols = [
+        ("callsign", "CALLSIGN"),
+        ("type", "TYPE"),
+        ("state", "STATE"),
+        ("started", "STARTED"),
+        ("name", "NAME"),
+        ("average_rtt", "AVG RTT"),
+    ]
+    
+    col_mapping = []
+    for key, name in possible_cols:
+        idx = h_up.find(name)
+        if idx != -1:
+            col_mapping.append((key, idx))
+    
+    col_mapping.sort(key=lambda x: x[1])
+
+    # 3. Parse each row using the detected offsets
     payload = []
-
-    filler =  " " * 50
-    # Skip the first line (header) and the last line (prompt)
-    for i in range(1, len(lines) - 1):
-        line = lines[i].lstrip()
+    for line in lines:
+        line_up = line.upper()
+        # Skip header, prompt, command echo, and empty lines
+        if "CALLSIGN" in line_up or "DXSPIDER" in line_up or not line.strip() or line.strip().lower() == "who":
+            continue
+            
+        row = {}
+        for i in range(len(col_mapping)):
+            key, start = col_mapping[i]
+            if i < len(col_mapping) - 1:
+                end = col_mapping[i+1][1]
+            else:
+                end = len(line) + 50 # Capture till end
+            
+            val = line[start:end].strip()
+            row[key] = val
         
-        # Skip the header line if it exists
-        if line.startswith("Callsign"):
-            continue  # Skip this line
+        # Ensure 'started' contains the timestamp even if it's shifted
+        # In some formats, 'state' might contain 'prompt 1' and 'started' is correct.
+        # In others, 'state' might BE missing and 'started' is the second field.
+        
+        # The web application expects these keys specifically:
+        # callsign, type, started, name, average_rtt
+        final_row = {
+            "callsign": row.get("callsign", ""),
+            "type": row.get("type", ""),
+            "started": row.get("started", row.get("state", "")),
+            "name": row.get("name", ""),
+            "average_rtt": row.get("average_rtt", "")
+        }
+        
+        # If 'started' is empty but 'state' looks like a timestamp, prefer it
+        if not final_row["started"] and row.get("state"):
+            final_row["started"] = row["state"]
 
-        logging.debug(f"line ({i}): {line}")
-        line_parts = line.split(" ", 1)
-        first_part = line_parts[0]
-        second_part = line_parts[1]
-        ln = len(second_part)
-
-        try:
-            if ln > 32:
-                fields = [first_part]
-                second_part += filler
-                fieldstruct = struct.Struct("10s 8s 18s 11s 2x 5s")
-                fields += list(fieldstruct.unpack_from(second_part.encode()))
-                fields = [f.decode('utf-8').strip() if isinstance(f, bytes) else f.strip() for f in fields]  
-                payload.append(dict(zip(row_headers, fields)))
-        except Exception as e1:
-            logging.error(e1)
+        payload.append(final_row)
+        
     return payload
 
 async def fetch_who_and_version(host, port, user, password=None):
