@@ -219,7 +219,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	// Copyright Date
 	const copyDateEl = document.getElementById('copyDate');
 	if (copyDateEl) {
-		copyDateEl.innerHTML = '2020-' + new Date().getFullYear();
+		copyDateEl.innerHTML = new Date().getFullYear();
 	}
 
 	// Back to Top functionality
