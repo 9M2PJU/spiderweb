@@ -7,34 +7,32 @@ import re
 def parse_who(lines):
     lines = lines.splitlines()
     logging.debug(f"Response to 'who': {lines}")
-    row_headers = ("callsign", "type", "state", "started", "name", "average_rtt", "link")
+    # Values mapped to template columns in plots.html
+    row_headers = ("callsign", "type", "started", "name", "average_rtt")
     payload = []
 
-    filler =  " " * 50
-    # Skip the first line (header) and the last line (prompt)
+    # Skip the first line and the last line (usually command and prompt)
     for i in range(1, len(lines) - 1):
-        line = lines[i].lstrip()
+        line = lines[i]
         
-        # Skip the header line if it exists
-        if line.startswith("Callsign"):
-            continue  # Skip this line
+        # Skip empty lines or the header line
+        if not line.strip() or line.strip().lower().startswith("callsign"):
+            continue
 
-        logging.debug(f"line ({i}): {line}")
-        line_parts = line.split(" ", 1)
-        first_part = line_parts[0]
-        second_part = line_parts[1]
-        ln = len(second_part)
+        logging.debug(f"Parsing line ({i}): {line}")
+
+        # DXSpider WHO output is fixed-width. We use absolute offsets from the start of the line.
+        # Verified offsets: Callsign: 0-11, Type: 11-20, Started: 20-31, Name: 31-54, RTT: 54-70
+        padded_line = (line + " " * 100).encode('utf-8')
+        fieldstruct = struct.Struct("11s 9s 11s 23s 16s")
 
         try:
-            if ln > 32:
-                fields = [first_part]
-                second_part += filler
-                fieldstruct = struct.Struct("10s 8s 18s 11s 2x 5s")
-                fields += list(fieldstruct.unpack_from(second_part.encode()))
-                fields = [f.decode('utf-8').strip() if isinstance(f, bytes) else f.strip() for f in fields]  
-                payload.append(dict(zip(row_headers, fields)))
-        except Exception as e1:
-            logging.error(e1)
+            fields = list(fieldstruct.unpack_from(padded_line))
+            fields = [f.decode('utf-8').strip() for f in fields]
+            payload.append(dict(zip(row_headers, fields)))
+        except Exception as e:
+            logging.error(f"Error parsing line {i}: {e}")
+            
     return payload
 
 async def fetch_who_and_version(host, port, user, password=None):
