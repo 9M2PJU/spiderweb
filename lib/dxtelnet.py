@@ -38,6 +38,10 @@ def parse_who(raw_data):
             col_mapping.append((key, idx))
     
     col_mapping.sort(key=lambda x: x[1])
+    if col_mapping:
+        # Prevent truncation if the header line is indented further than the data lines.
+        # The first column (usually CALLSIGN) should always start at the beginning of the line.
+        col_mapping[0] = (col_mapping[0][0], 0)
 
     # 3. Parse each row using the detected offsets
     payload = []
