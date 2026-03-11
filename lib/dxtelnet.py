@@ -41,6 +41,9 @@ def parse_who(raw_data):
 
     # 3. Parse each row using the detected offsets
     payload = []
+    ip_pattern = re.compile(r"\b(?:\d{1,3}\.){3}\d{1,3}\b")
+    rtt_pattern = re.compile(r"^\d+\.\d+$")
+
     for line in lines:
         line_up = line.upper()
         # Skip header, prompt, command echo, and empty lines
@@ -58,23 +61,39 @@ def parse_who(raw_data):
             val = line[start:end].strip()
             row[key] = val
         
-        # Ensure 'started' contains the timestamp even if it's shifted
-        # In some formats, 'state' might contain 'prompt 1' and 'started' is correct.
-        # In others, 'state' might BE missing and 'started' is the second field.
-        
-        # The web application expects these keys specifically:
-        # callsign, type, started, name, average_rtt
+        # Prepare standard keys
+        # started might be in 'state' if headers are shifted
+        started = row.get("started", row.get("state", ""))
+        if not started and row.get("state"):
+            started = row["state"]
+            
+        name = row.get("name", "")
+        avg_rtt = row.get("average_rtt", "")
+        link = ""
+
+        # 4. Hybrid Logic: Redistribute if values are squeezed into 'name'
+        # This often happens when STARTED is long and pushes RTT/IP into the NAME field
+        if name:
+            parts = name.split()
+            remaining_name_parts = []
+            for part in parts:
+                if ip_pattern.search(part):
+                    link = part
+                elif rtt_pattern.match(part) and not avg_rtt:
+                    avg_rtt = part
+                else:
+                    remaining_name_parts.append(part)
+            name = " ".join(remaining_name_parts)
+
+        # Mapping to template keys: callsign, type, started, name, average_rtt, link
         final_row = {
             "callsign": row.get("callsign", ""),
             "type": row.get("type", ""),
-            "started": row.get("started", row.get("state", "")),
-            "name": row.get("name", ""),
-            "average_rtt": row.get("average_rtt", "")
+            "started": started,
+            "name": name,
+            "average_rtt": avg_rtt,
+            "link": link
         }
-        
-        # If 'started' is empty but 'state' looks like a timestamp, prefer it
-        if not final_row["started"] and row.get("state"):
-            final_row["started"] = row["state"]
 
         payload.append(final_row)
         

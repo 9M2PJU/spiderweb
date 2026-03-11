@@ -78,6 +78,7 @@
                     <th scope="col">Started</th>
                     <th scope="col" class="d-none d-lg-table-cell d-xl-table-cell">Name</th>
                     <th scope="col">Avg RTT</th>
+                    <th scope="col" class="d-none d-lg-table-cell d-xl-table-cell">Link</th>
                 </tr>
             </thead>
             <tbody>
@@ -88,6 +89,7 @@
                     <td>{{ dict_item["started"] }}</td>
                     <td class="d-none d-lg-table-cell d-xl-table-cell">{{ dict_item["name"] }}</td>
                     <td>{{ dict_item["average_rtt"] }}</td>
+                    <td class="d-none d-lg-table-cell d-xl-table-cell">{{ dict_item["link"] }}</td>
                 </tr>
                 {% endfor %}
             </tbody>
